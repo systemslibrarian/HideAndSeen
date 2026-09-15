@@ -164,6 +164,8 @@
   function load(kind) {
     current = createCase(kind);
     element("caseReveal").hidden = true;
+    const fallback = document.querySelector('input[name="verdict"][value="uncertain"]');
+    if (fallback) fallback.checked = true;
     element("toolName").textContent = "NO INSTRUMENT SELECTED";
     element("toolFinding").textContent = "Begin with an ordinary decode or inspect the structure directly.";
     element("toolDetail").textContent = "Evidence will appear here.";
@@ -180,7 +182,50 @@
     return cases[values[0] % cases.length];
   }
 
+  const VERDICT_LABEL = {
+    hidden: "Something is hidden",
+    clean: "No hidden data",
+    uncertain: "Evidence is inconclusive"
+  };
+
+  function chosenVerdict() {
+    const picked = document.querySelector('input[name="verdict"]:checked');
+    return picked ? picked.value : "uncertain";
+  }
+
+  // The case carries its own ground truth: `hidden` is null for clean samples.
+  function scoreVerdict() {
+    const node = element("caseScore");
+    if (!node) return;
+    const truth = current.hidden === null || current.hidden === undefined ? "clean" : "hidden";
+    const said = chosenVerdict();
+    let outcome;
+    let note;
+
+    if (said === truth) {
+      outcome = "correct";
+      note = truth === "clean"
+        ? "Correct. Calling a sample clean is the harder judgement, and reporting that nothing was found is a real result."
+        : "Correct, and the mechanism is named below.";
+    } else if (said === "uncertain") {
+      outcome = "partial";
+      note = "Defensible, but the instruments could have settled this one. See USEFUL EVIDENCE below.";
+    } else if (said === "hidden") {
+      outcome = "wrong";
+      note = "This is a false positive. Nothing is hidden in this sample, and the evidence that pointed that way has an innocent explanation. See MISLEADING EVIDENCE below.";
+    } else {
+      outcome = "wrong";
+      note = "This is a miss. Something is hidden here, and one of the instruments would have shown it. See USEFUL EVIDENCE below.";
+    }
+
+    node.classList.remove("correct", "wrong", "partial");
+    node.classList.add(outcome);
+    node.textContent = `You said: ${VERDICT_LABEL[said]}. ${note}`;
+    node.dataset.outcome = outcome;
+  }
+
   function reveal() {
+    scoreVerdict();
     element("caseTruth").textContent = current.title;
     element("caseMechanism").textContent = current.mechanism;
     element("caseUseful").textContent = current.useful;

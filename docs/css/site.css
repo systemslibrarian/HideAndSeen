@@ -423,6 +423,10 @@ blockquote { max-width: 46rem; margin: 2rem 0; border-left: 3px solid var(--acce
 .analyst-verdict label { display: flex; gap: .65rem; align-items: center; }
 .analyst-verdict input { min-height: auto; width: auto; accent-color: var(--accent); }
 .case-reveal { margin-top: 4rem; border-top: 3px solid var(--accent); padding-top: 2rem; }
+.case-score { margin: 0 0 .75rem; border-left: 3px solid var(--rule); padding-left: .85rem; font-size: .95rem; }
+.case-score.correct { border-left-color: var(--accent); }
+.case-score.wrong { border-left-color: var(--accent); font-weight: 500; }
+.case-score.partial { border-left-color: var(--muted); }
 .case-reveal[hidden] { display: none; }
 .resolution-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
 .resolution-grid div { min-height: 10rem; padding: 1rem; background: var(--paper-bright); }

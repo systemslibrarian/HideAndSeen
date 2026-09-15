@@ -283,3 +283,32 @@ test("papers page documents every exhibit without private PDF links", async ({ p
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
 });
+test("challenge scores a correct hidden call", async ({ page }) => {
+  await page.goto("/exhibits/challenge.html?case=padding");
+  await page.locator('input[name="verdict"][value="hidden"]').check();
+  await page.getByRole("button", { name: "Reveal answer" }).click();
+  await expect(page.locator("#caseScore")).toHaveAttribute("data-outcome", "correct");
+  await expect(page.locator("#caseScore")).toContainText("Something is hidden");
+});
+
+test("challenge names a false positive when a clean case is called hidden", async ({ page }) => {
+  await page.goto("/exhibits/challenge.html?case=encoder");
+  await page.locator('input[name="verdict"][value="hidden"]').check();
+  await page.getByRole("button", { name: "Reveal answer" }).click();
+  await expect(page.locator("#caseScore")).toHaveAttribute("data-outcome", "wrong");
+  await expect(page.locator("#caseScore")).toContainText("false positive");
+});
+
+test("challenge credits a clean call on the innocent encoder case", async ({ page }) => {
+  await page.goto("/exhibits/challenge.html?case=encoder");
+  await page.locator('input[name="verdict"][value="clean"]').check();
+  await page.getByRole("button", { name: "Reveal answer" }).click();
+  await expect(page.locator("#caseScore")).toHaveAttribute("data-outcome", "correct");
+});
+
+test("challenge treats an undecided verdict as defensible but incomplete", async ({ page }) => {
+  await page.goto("/exhibits/challenge.html?case=ecc");
+  await page.getByRole("button", { name: "Reveal answer" }).click();
+  await expect(page.locator("#caseScore")).toHaveAttribute("data-outcome", "partial");
+  await expect(page.locator("#caseScore")).toContainText("Defensible");
+});
