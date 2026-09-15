@@ -30,7 +30,8 @@
       ["exhibits", "Exhibits", "index.html#exhibits-title"],
       ["anatomy", "How QR works", "learn/anatomy.html"],
       ["detection", "Detection", "exhibits/steganalysis.html"],
-      ["papers", "Papers", "learn/papers.html"]
+      ["papers", "Papers", "learn/papers.html"],
+      ["glossary", "Glossary", "learn/glossary.html"]
     ];
     const navLinks = links.map(([id, label, href]) => {
       const active = currentPage === id ? ' aria-current="page"' : "";

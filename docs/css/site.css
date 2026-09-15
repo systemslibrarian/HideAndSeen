@@ -446,6 +446,12 @@ blockquote { max-width: 46rem; margin: 2rem 0; border-left: 3px solid var(--acce
 .grade-list div { display: grid; grid-template-columns: 5rem 1fr; border-bottom: 1px solid var(--rule); padding: .75rem 0; }
 .grade-list dt { color: var(--accent); font-family: var(--mono); font-size: .72rem; font-weight: 500; }
 .grade-list dd { margin: 0; color: var(--muted); font-size: .86rem; }
+.glossary-group + .glossary-group { margin-top: 1rem; }
+.glossary-list { margin: 0; border-top: 1px solid var(--rule); }
+.glossary-list > div { display: grid; grid-template-columns: minmax(8rem, .28fr) minmax(0, 1fr); gap: .5rem 2rem; border-bottom: 1px solid var(--rule); padding: 1.15rem 0; }
+.glossary-list dt { font-weight: 600; }
+.glossary-list dd { margin: 0; max-width: 47rem; color: var(--muted); font-size: .92rem; }
+.glossary-list dd code { color: var(--ink); font-size: .88em; }
 .research-list { margin-top: 2rem; border-top: 1px solid var(--rule); }
 .research-entry { scroll-margin-top: 1rem; border-bottom: 1px solid var(--rule); padding-block: 2rem; }
 .research-entry > header { display: grid; grid-template-columns: 3rem minmax(0, 1fr) auto; gap: 1rem; align-items: baseline; }
@@ -479,6 +485,8 @@ blockquote { max-width: 46rem; margin: 2rem 0; border-left: 3px solid var(--acce
 .exhibit-step:hover strong, .exhibit-step:focus-visible strong { color: var(--accent); }
 
 @media (max-width: 760px) {
+  .site-links { flex-wrap: wrap; }
+  .glossary-list > div { grid-template-columns: 1fr; gap: .3rem; }
   .base-rate-stage { grid-template-columns: 1fr; }
   .exhibit-nav { grid-template-columns: 1fr; }
   .exhibit-step.next { text-align: left; }

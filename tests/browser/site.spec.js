@@ -375,3 +375,32 @@ test("base rate arithmetic conserves the population", async ({ page }) => {
   });
   for (const total of totals) expect(total).toBe(10000);
 });
+
+test("the glossary defines the terms exhibit 01 opens with", async ({ page }) => {
+  await page.goto("/learn/glossary.html");
+  for (const term of ["Codeword", "Terminator", "Pad codeword", "Mask", "Base rate", "Precision"]) {
+    await expect(page.locator(".glossary-list dt", { hasText: new RegExp(`^${term}$`) })).toHaveCount(1);
+  }
+  // The exhibit status tags are defined nowhere else on the site.
+  for (const tag of ["LIVE", "MODEL", "DATA"]) {
+    await expect(page.locator(".glossary-list dt", { hasText: new RegExp(`^${tag}$`) })).toHaveCount(1);
+  }
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(1);
+});
+
+test("the glossary is reachable from every page and links back to the exhibits", async ({ page }) => {
+  await page.goto("/exhibits/padding.html");
+  await page.getByRole("link", { name: "Glossary" }).click();
+  await expect(page).toHaveURL(/glossary\.html$/);
+  await page.getByRole("link", { name: "exhibit 13" }).click();
+  await expect(page).toHaveURL(/base-rate\.html$/);
+});
+
+test("the home page explains all three exhibit status tags", async ({ page }) => {
+  await page.goto("/");
+  const legend = page.locator("#exhibits-title").locator("xpath=../..");
+  for (const tag of ["LIVE", "MODEL", "DATA"]) {
+    await expect(legend).toContainText(tag);
+  }
+});

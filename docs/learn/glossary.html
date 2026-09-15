@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glossary | HideAndSeen</title>
+  <meta name="description" content="The QR structure, error-correction, steganography and detection terms the exhibits assume.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="glossary">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">REFERENCE</p>
+        <div>
+          <p class="kicker">TERMS THE EXHIBITS ASSUME</p>
+          <h1>The vocabulary, in one place.</h1>
+          <p class="lede">Exhibit 01 opens with &ldquo;pad codewords after the terminator.&rdquo; Three terms, before anything has been explained. Everything the exhibits assume is defined here, with a note on why each one matters rather than only what it means.</p>
+          <p class="status-tag">NO PRIOR KNOWLEDGE ASSUMED / LINKS TO THE EXHIBIT THAT USES EACH TERM</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="structure-title">
+      <div class="wrap glossary-group">
+        <div class="section-heading">
+          <div><p class="section-number">01 / READING THE SYMBOL</p><h2 id="structure-title">Structure</h2></div>
+          <p>What the black squares are arranged into. <a href="anatomy.html">QR anatomy</a> shows each of these on a live symbol.</p>
+        </div>
+        <dl class="glossary-list">
+          <div><dt>Module</dt><dd>One square of the symbol, light or dark. The smallest unit of a QR code. Not the same as a pixel &mdash; one module is usually printed or displayed as many pixels, which is what makes <a href="../exhibits/nested.html">structure below module scale</a> possible.</dd></div>
+          <div><dt>Version</dt><dd>The size of the symbol, from 1 to 40. Version 1 is 21&times;21 modules and each version adds 4 to each side. A longer message, or a higher error-correction level, forces a higher version.</dd></div>
+          <div><dt>Quiet zone</dt><dd>The blank margin of at least four modules around the symbol. A reader needs it to locate the edges; without it, scanning becomes unreliable.</dd></div>
+          <div><dt>Finder pattern</dt><dd>The three large concentric squares at the corners. They give a reader the symbol's position, orientation and scale before any data is read.</dd></div>
+          <div><dt>Timing pattern</dt><dd>The alternating light and dark line running between finder patterns. It establishes where the module grid falls, so a reader can sample each module's centre.</dd></div>
+          <div><dt>Alignment pattern</dt><dd>Smaller concentric squares that appear from version 2 onward. They let a reader correct for perspective and surface distortion across a large symbol.</dd></div>
+          <div><dt>Format information</dt><dd>A short protected field recording the error-correction level and which mask was applied. It is stored twice and carries its own error correction, because a reader cannot decode anything else until it reads this.</dd></div>
+          <div><dt>Mask</dt><dd>One of eight patterns XORed over the data modules to avoid large blank areas or accidental finder-like shapes. The standard scores candidates by penalty and recommends the lowest, but the choice is an implementation behaviour &mdash; which is why it shows up in <a href="../exhibits/fingerprints.html">encoder fingerprints</a>.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="data-title">
+      <div class="wrap glossary-group">
+        <div class="section-heading">
+          <div><p class="section-number">02 / THE DATA LAYER</p><h2 id="data-title">Message and encoding</h2></div>
+          <p>Where most of the hiding in these exhibits happens.</p>
+        </div>
+        <dl class="glossary-list">
+          <div><dt>Codeword</dt><dd>One byte &mdash; eight bits &mdash; of the symbol's data stream. Capacity, padding and error correction are all counted in codewords rather than in characters.</dd></div>
+          <div><dt>Mode</dt><dd>How a run of characters is encoded: numeric, alphanumeric, byte, or kanji. Denser modes fit more characters per codeword, so <code>8675309</code> costs far less in numeric mode than in byte mode.</dd></div>
+          <div><dt>Segment</dt><dd>A run of characters encoded in a single mode. A mixed payload can be split into segments in many different, equally valid ways &mdash; the basis of <a href="../exhibits/segmentation.html">exhibit 02</a>.</dd></div>
+          <div><dt>Terminator</dt><dd>Up to four <code>0</code> bits marking the end of the message. An ordinary decoder stops here and never looks at what follows, which is exactly why what follows can be used.</dd></div>
+          <div><dt>Pad codeword</dt><dd>The bytes that fill the remaining capacity after the terminator. The standard prescribes alternating <code>0xEC</code> and <code>0x11</code>. Because the value is prescribed, any other value is both usable as a channel and trivially detectable &mdash; see <a href="../exhibits/padding.html">exhibit 01</a>.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="ecc-title">
+      <div class="wrap glossary-group">
+        <div class="section-heading">
+          <div><p class="section-number">03 / ERROR CORRECTION</p><h2 id="ecc-title">Reed&ndash;Solomon</h2></div>
+          <p>The reason a damaged QR code still scans &mdash; and a place to hide.</p>
+        </div>
+        <dl class="glossary-list">
+          <div><dt>Reed&ndash;Solomon code</dt><dd>The error-correcting code QR uses. It works over codewords, not individual bits, and can repair a bounded number of wrong codewords per block. A single flipped module corrupts one codeword, so it costs one unit of the correction budget.</dd></div>
+          <div><dt>Error-correction level</dt><dd>One of L, M, Q or H, recovering roughly 7%, 15%, 25% and 30% of codewords. Higher levels survive more damage but leave less room for the message, so raising the level can force a higher version.</dd></div>
+          <div><dt>Block</dt><dd>Larger symbols split the data into several blocks, each with its own parity codewords. Correction budgets are per block, so five errors spread across five blocks are far more survivable than five in one.</dd></div>
+          <div><dt>Parity codeword</dt><dd>The redundant codewords Reed&ndash;Solomon adds. Checking them without correcting is how an analyst detects deliberate errors that a normal reader would silently repair &mdash; the mechanism in <a href="../exhibits/ecc.html">exhibit 03</a>.</dd></div>
+          <div><dt>Error vs erasure</dt><dd>An error is a wrong codeword at an unknown position; an erasure is a wrong codeword whose position is already known. Erasures cost half as much of the budget, because the decoder only has to solve for the value.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="hiding-title">
+      <div class="wrap glossary-group">
+        <div class="section-heading">
+          <div><p class="section-number">04 / HIDING</p><h2 id="hiding-title">Steganography</h2></div>
+          <p>Concealment, which is not the same thing as confidentiality. Encryption makes a message unreadable; steganography tries to make it unnoticed.</p>
+        </div>
+        <dl class="glossary-list">
+          <div><dt>Cover</dt><dd>The ordinary-looking object that carries the hidden message. Here, a valid QR code that scans normally.</dd></div>
+          <div><dt>Payload</dt><dd>The hidden message itself, as distinct from the overt message the scanner returns.</dd></div>
+          <div><dt>Capacity</dt><dd>How much payload a given channel can carry. Usually small, and usually traded against robustness or detectability.</dd></div>
+          <div><dt>Embedding</dt><dd>Modifying a cover so that it carries a payload. Modification is measurable in principle, which is what makes embedding detectable in principle.</dd></div>
+          <div><dt>Representation choice</dt><dd>Hiding by <em>selecting among</em> encodings that are all valid and all decode identically, rather than by modifying one. Nothing is altered, so there is no modification to measure &mdash; but the distribution of choices can still betray it, as <a href="../exhibits/distribution.html">exhibit 11</a> shows.</dd></div>
+          <div><dt>Visual secret sharing</dt><dd>Splitting an image into shares that individually reveal nothing and only reconstruct when combined. <a href="../exhibits/secret-sharing.html">Exhibit 06</a> puts one share in each of two scannable QR codes.</dd></div>
+          <div><dt>Shadow / share</dt><dd>One piece of a visual secret sharing split. A single shadow is designed to look like noise.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="detection-title">
+      <div class="wrap glossary-group">
+        <div class="section-heading">
+          <div><p class="section-number">05 / DETECTION</p><h2 id="detection-title">Steganalysis and evidence</h2></div>
+          <p>Finding hidden information, and knowing what a finding is worth.</p>
+        </div>
+        <dl class="glossary-list">
+          <div><dt>Steganalysis</dt><dd>Detecting the presence of hidden information. Note that this is a weaker goal than recovering it, and usually the only one that is achievable.</dd></div>
+          <div><dt>Regeneration and compare</dt><dd>Decode a received symbol, re-encode the same payload with a reference encoder, and compare. Differences are suspicious &mdash; but only if the reference encoder makes the same legal choices as the issuer did. See <a href="../exhibits/steganalysis.html">exhibit 08</a>.</dd></div>
+          <div><dt>Sensitivity</dt><dd>The proportion of hidden symbols a detector catches. Also called the true positive rate or recall.</dd></div>
+          <div><dt>Specificity</dt><dd>The proportion of clean symbols a detector correctly leaves alone. When hiding is rare, this matters far more than sensitivity.</dd></div>
+          <div><dt>False positive</dt><dd>A clean symbol that alarms. In QR steganalysis the commonest cause is not malice but an innocent encoder making different legal choices.</dd></div>
+          <div><dt>Base rate</dt><dd>How often the thing being searched for actually occurs in the population being searched. Also called prevalence. It is a property of the traffic, never of the instrument.</dd></div>
+          <div><dt>Precision</dt><dd>Of the symbols that alarm, the proportion that really are hidden. Also called positive predictive value. This is what an alarm is worth, and it depends on the base rate &mdash; <a href="../exhibits/base-rate.html">exhibit 13</a> is entirely about this number.</dd></div>
+          <div><dt>Confusion matrix</dt><dd>A table of true class against predicted class. The off-diagonal cells, not the headline accuracy, are where a classifier's real weaknesses are visible &mdash; as in <a href="../exhibits/attribution.html">exhibit 10</a>.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="band conclusion-band" aria-labelledby="labels-title">
+      <div class="wrap glossary-group">
+        <div class="section-heading">
+          <div><p class="section-number">06 / LABELS ON THIS SITE</p><h2 id="labels-title">What the exhibit tags mean</h2></div>
+          <p>Every exhibit states how much of it is real.</p>
+        </div>
+        <dl class="glossary-list">
+          <div><dt>LIVE</dt><dd>The mechanism is implemented in this browser and the QR output is genuine. You can save the symbol and scan it with an ordinary phone.</dd></div>
+          <div><dt>MODEL</dt><dd>A teaching model. The cited physical or cryptographic technique is not reproduced exactly, and the exhibit says which part is simplified.</dd></div>
+          <div><dt>DATA</dt><dd>The exhibit reports a measured result produced by this repository's own experiments rather than demonstrating a published technique. The method, the sample and the limitations are stated with the number.</dd></div>
+        </dl>
+        <p>Citations carry a second, independent label recording how far each reference was actually verified &mdash; FULL, META, BIB or 2ND. Those are defined on the <a href="papers.html">research record</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/site.js"></script>
+</body>
+</html>
