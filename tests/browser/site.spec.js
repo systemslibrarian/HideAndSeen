@@ -556,3 +556,17 @@ test("the research record makes the same unsigned claim about independence", asy
   await expect(simplified).toContainText("its net effect there is unsigned");
   await expect(simplified).not.toContainText("generous");
 });
+
+test("the site cites no patents", async ({ page }) => {
+  const pages = [
+    "/", "/learn/papers.html", "/learn/glossary.html", "/learn/anatomy.html",
+    ...["padding", "segmentation", "ecc", "multi-secret", "two-level", "secret-sharing",
+        "nested", "steganalysis", "fingerprints", "attribution", "distribution",
+        "challenge", "base-rate", "adversary"].map(name => `/exhibits/${name}.html`)
+  ];
+  for (const path of pages) {
+    await page.goto(path);
+    await expect(page.locator('a[href*="patents.google.com"]'), path).toHaveCount(0);
+    await expect(page.locator("main"), path).not.toContainText(/patent/i);
+  }
+});

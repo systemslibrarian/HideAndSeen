@@ -303,7 +303,7 @@ input[type="range"] { padding: 0; accent-color: var(--accent); }
 .placement-switch button { border: 0; color: var(--ink); background: var(--paper-bright); font-family: var(--mono); font-size: .72rem; }
 .placement-switch button:hover, .placement-switch button[aria-pressed="true"] { color: var(--paper-bright); background: var(--accent); }
 .placement-note { max-width: none; margin: .75rem 0 0; color: var(--muted); font-size: .82rem; }
-.lineage-list { display: grid; grid-template-columns: repeat(4, 1fr); margin: 3rem 0 0; padding: 0; border: 1px solid #454a43; list-style: none; }
+.lineage-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin: 3rem 0 0; padding: 0; border: 1px solid #454a43; list-style: none; }
 .lineage-list li { min-height: 15rem; border-left: 1px solid #454a43; padding: 1rem; }
 .lineage-list li:first-child { border-left: 0; }
 .lineage-list span { color: #8e9589; font-family: var(--mono); font-size: .68rem; }

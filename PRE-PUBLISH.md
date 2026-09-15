@@ -8,8 +8,8 @@ never be committed to it, and what was done to make publishing safe.
 ## 1. `articles/` must never be committed
 
 During the prior-art phase this repository carried an `articles/` directory of
-45 third-party files — 31 research papers, 11 patents, a manifest and two
-archived web pages. The papers were publisher and author copies, including a
+45 third-party files — 31 research papers, 11 patent PDFs, a manifest and
+two archived web pages. The papers were publisher and author copies, including a
 Springer chapter bought for USD 29.95 and two IEEE papers. Publishing them
 would redistribute paywalled work.
 
@@ -31,7 +31,8 @@ pushed to a public remote; afterwards, assume they were cloned or indexed.
 
 Nothing of value was lost. `README.md` now carries a resolvable DOI, or a
 direct link where the publisher or author offers a free copy, for every
-reference. Patents link to Google Patents.
+reference. The patent prior-art material was removed from the repository
+separately and is not cited anywhere.
 
 ## 2. Other checks
 
