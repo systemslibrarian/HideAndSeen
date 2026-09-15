@@ -30,6 +30,15 @@
           <div><p class="section-number">REPRESENTATION LAB</p><h2 id="segment-lab-title">Choose two hidden bits</h2></div>
           <p>All four symbols are forced to the same version and ECC level. Their overt semantic message is identical.</p>
         </div>
+        <fieldset class="predict" data-predict data-predict-answer="no" data-predict-reveal='#segmentBuilder button[type=submit]'>
+          <legend>Predict first</legend>
+          <p class="predict-question">The variants below all encode exactly the same text, and every one of them is standards-compliant. Will they produce the same symbol?</p>
+          <label><input type="radio" value="yes"> Yes, the text determines the symbol</label>
+          <label><input type="radio" value="no"> No, the symbols differ</label>
+          <p class="predict-outcome" data-predict-outcome aria-live="polite"></p>
+          <p class="predict-why" data-predict-why hidden>Mode choice is not determined by the text. Different segment splits produce different bit streams, and sometimes a different version. Identical text, different symbol &mdash; and choosing which one to emit is the channel.</p>
+        </fieldset>
+
         <form id="segmentBuilder" class="control-strip segment-controls">
           <label>Overt message<input id="segmentText" maxlength="64" value="MEET AT GATE 7 / CODE 86753091234567890" spellcheck="false"></label>
           <label>ECC level<select id="segmentEcc"><option selected>L</option><option>M</option><option>Q</option><option>H</option></select></label>
@@ -74,5 +83,6 @@
   <script src="../js/render.js"></script>
   <script src="../js/segments.js"></script>
   <script src="../js/segmentation-exhibit.js"></script>
+  <script src="../js/predict.js"></script>
 </body>
 </html>

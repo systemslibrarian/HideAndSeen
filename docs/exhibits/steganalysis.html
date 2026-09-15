@@ -34,6 +34,15 @@
           <label>Overt message<input id="regenText" value="https://ciphermuseum.com/profile/8675309" spellcheck="false"></label>
           <button type="submit">Regenerate experiment</button>
         </form>
+        <fieldset class="predict" data-predict data-predict-answer="yes" data-predict-reveal='[data-scenario="encoder"]'>
+          <legend>Predict first</legend>
+          <p class="predict-question">In the third scenario the symbol is innocent &mdash; nothing is hidden &mdash; but it came from a different encoder. Will regeneration-and-compare report a difference?</p>
+          <label><input type="radio" value="yes"> Yes, it will flag it</label>
+          <label><input type="radio" value="no"> No, it will stay quiet</label>
+          <p class="predict-outcome" data-predict-outcome aria-live="polite"></p>
+          <p class="predict-why" data-predict-why hidden>It flags it, and that is the false positive. The method measures difference from a reference symbol, so when the reference encoder is not the one the issuer used, ordinary legal variation is indistinguishable from tampering.</p>
+        </fieldset>
+
         <div class="scenario-switch" role="group" aria-label="Comparison scenario">
           <button type="button" data-scenario="baseline">Same encoder / clean</button>
           <button type="button" data-scenario="hidden">Padding channel / hidden</button>
@@ -105,5 +114,6 @@
   <script src="../js/decoder.js"></script>
   <script src="../js/encoder-adapters.js"></script>
   <script src="../js/steganalysis.js"></script>
+  <script src="../js/predict.js"></script>
 </body>
 </html>

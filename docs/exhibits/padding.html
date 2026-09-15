@@ -38,6 +38,15 @@
             <div class="verdict" id="verB" aria-live="polite"></div>
           </figure>
         </div>
+        <fieldset class="predict" data-predict data-predict-answer="yes" data-predict-reveal='#tell'>
+          <legend>Predict first</legend>
+          <p class="predict-question">Both symbols return the same address to an ordinary scanner. Can a standards check still tell them apart?</p>
+          <label><input type="radio" value="yes"> Yes, reliably</label>
+          <label><input type="radio" value="no"> No, they are indistinguishable</label>
+          <p class="predict-outcome" data-predict-outcome aria-live="polite"></p>
+          <p class="predict-why" data-predict-why hidden>The standard prescribes alternating <code>0xEC</code> and <code>0x11</code> after the terminator, so any other value is a departure from a known pattern. This channel is easy to write into and just as easy to find.</p>
+        </fieldset>
+
         <button id="tell" type="button">Run the padding check</button>
       </div>
     </section>
@@ -102,5 +111,6 @@
   <script src="../js/site.js"></script>
   <script src="../js/render.js"></script>
   <script src="../js/padding.js"></script>
+  <script src="../js/predict.js"></script>
 </body>
 </html>

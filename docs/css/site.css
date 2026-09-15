@@ -431,6 +431,18 @@ blockquote { max-width: 46rem; margin: 2rem 0; border-left: 3px solid var(--acce
 .analyst-verdict legend { padding-inline: .4rem; font-family: var(--mono); font-size: .7rem; }
 .analyst-verdict label { display: flex; gap: .65rem; align-items: center; }
 .analyst-verdict input { min-height: auto; width: auto; accent-color: var(--accent); }
+.predict { display: grid; gap: .6rem; justify-items: start; margin: 1.75rem 0; border: 1px solid var(--rule); border-left: 3px solid var(--rule-dark); padding: 1.1rem 1.2rem; background: var(--paper-bright); }
+.predict[data-outcome] { border-left-color: var(--accent); }
+.predict legend { padding-inline: .4rem; color: var(--muted); font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; }
+.predict-question { max-width: 47rem; margin: 0; font-weight: 600; }
+.predict label { display: flex; gap: .65rem; align-items: baseline; cursor: pointer; }
+.predict input { min-height: auto; width: auto; accent-color: var(--accent); }
+.predict input:disabled + * , .predict input:disabled { cursor: default; }
+.predict button { margin-top: .2rem; }
+.predict-outcome { margin: 0; color: var(--accent); font-family: var(--mono); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; }
+.predict-outcome:empty { display: none; }
+.predict-why { max-width: 47rem; margin: 0; color: var(--muted); font-size: .9rem; }
+.predict-why[hidden] { display: none; }
 .case-reveal { margin-top: 4rem; border-top: 3px solid var(--accent); padding-top: 2rem; }
 .case-score { margin: 0 0 .75rem; border-left: 3px solid var(--rule); padding-left: .85rem; font-size: .95rem; }
 .case-score.correct { border-left-color: var(--accent); }

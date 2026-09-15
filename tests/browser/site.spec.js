@@ -404,3 +404,57 @@ test("the home page explains all three exhibit status tags", async ({ page }) =>
     await expect(legend).toContainText(tag);
   }
 });
+
+test("a correct prediction is scored and explained", async ({ page }) => {
+  await page.goto("/exhibits/padding.html");
+  const gate = page.locator(".predict");
+  await expect(page.locator(".predict-why")).toBeHidden();
+  await gate.locator('input[value="yes"]').check();
+  await page.getByRole("button", { name: "Run the padding check" }).click();
+  await expect(gate).toHaveAttribute("data-outcome", "correct");
+  await expect(page.locator(".predict-outcome")).toHaveText("Correct.");
+  await expect(page.locator(".predict-why")).toBeVisible();
+});
+
+test("a wrong prediction is corrected rather than hidden", async ({ page }) => {
+  await page.goto("/exhibits/fingerprints.html");
+  const gate = page.locator(".predict");
+  await gate.locator('input[value="yes"]').check(); // wrong: the answer is "no"
+  await page.getByRole("button", { name: "Compare encoders" }).click();
+  await expect(gate).toHaveAttribute("data-outcome", "wrong");
+  await expect(page.locator(".predict-outcome")).toHaveText("Not quite.");
+  await expect(page.locator(".predict-why")).toContainText("two honest encoders routinely disagree");
+});
+
+test("skipping the prediction still explains, and never blocks the exhibit", async ({ page }) => {
+  await page.goto("/exhibits/padding.html");
+  await page.getByRole("button", { name: "Run the padding check" }).click();
+  await expect(page.locator(".predict-why")).toBeVisible();
+  await expect(page.locator(".predict")).not.toHaveAttribute("data-outcome", /.*/);
+  // the exhibit's own behaviour is untouched
+  await expect(page.locator("#verA, #verB").first()).not.toBeEmpty();
+});
+
+test("the base rate gate settles on its own check button", async ({ page }) => {
+  await page.goto("/exhibits/base-rate.html");
+  const gate = page.locator(".predict");
+  await gate.locator('input[value="two"]').check();
+  await page.getByRole("button", { name: "Check my answer" }).click();
+  await expect(gate).toHaveAttribute("data-outcome", "correct");
+});
+
+test("every predicting exhibit carries exactly one gate with an answer", async ({ page }) => {
+  const pages = ["padding", "segmentation", "ecc", "fingerprints", "secret-sharing",
+                 "steganalysis", "nested", "distribution", "base-rate"];
+  for (const name of pages) {
+    await page.goto(`/exhibits/${name}.html`);
+    const gate = page.locator(".predict");
+    await expect(gate, name).toHaveCount(1);
+    await expect(gate, name).toHaveAttribute("data-predict-answer", /.+/);
+    const options = await gate.locator('input[type="radio"]').count();
+    expect(options, name).toBeGreaterThanOrEqual(2);
+    // the declared answer must actually be one of the options
+    const values = await gate.locator('input[type="radio"]').evaluateAll(els => els.map(e => e.value));
+    expect(values, name).toContain(await gate.getAttribute("data-predict-answer"));
+  }
+});

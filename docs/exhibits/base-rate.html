@@ -31,6 +31,17 @@
           <p>Set how often hiding actually occurs, and how good the instrument is. The grid below is one dot per symbol.</p>
         </div>
 
+        <fieldset class="predict" data-predict data-predict-answer="two">
+          <legend>Predict first</legend>
+          <p class="predict-question">A detector is 95% sensitive and 95% specific, and hiding occurs in 1 symbol per 1,000. Of every 100 alarms it raises, about how many are real?</p>
+          <label><input type="radio" value="ninety"> About 95</label>
+          <label><input type="radio" value="fifty"> About 50</label>
+          <label><input type="radio" value="two"> About 2</label>
+          <button class="quiet" type="button" data-predict-check>Check my answer</button>
+          <p class="predict-outcome" data-predict-outcome aria-live="polite"></p>
+          <p class="predict-why" data-predict-why hidden>About two. The 5% of clean symbols that alarm is multiplied by the 9,990 clean symbols rather than the 10 hidden ones, so false alarms outrun real ones roughly fifty to one. Nothing is wrong with the detector; the population decides the answer.</p>
+        </fieldset>
+
         <form id="baseRateForm" class="control-strip base-rate-controls">
           <label>Hiding occurs in <output id="brPrevalenceValue">1 in 1,000</output><input id="brPrevalence" type="range" min="0" max="8" step="1" value="4"></label>
           <label>Sensitivity <output id="brSensitivityValue">95.0%</output><input id="brSensitivity" type="range" min="50" max="100" step="0.5" value="95"></label>
@@ -101,5 +112,6 @@
   <footer class="site-footer" data-site-footer></footer>
   <script src="../js/site.js"></script>
   <script src="../js/base-rate.js"></script>
+  <script src="../js/predict.js"></script>
 </body>
 </html>

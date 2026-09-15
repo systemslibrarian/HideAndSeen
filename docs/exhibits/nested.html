@@ -36,6 +36,15 @@
           <button type="submit">Build dual QR</button>
         </form>
 
+        <fieldset class="predict" data-predict data-predict-answer="different" data-predict-reveal='[data-dual-view="near"]'>
+          <legend>Predict first</legend>
+          <p class="predict-question">The same image, resampled through a narrower aperture. What does it decode to?</p>
+          <label><input type="radio" value="same"> The same message</label>
+          <label><input type="radio" value="different"> A different message</label>
+          <p class="predict-outcome" data-predict-outcome aria-live="polite"></p>
+          <p class="predict-why" data-predict-why hidden>Modules are not solid. Each one holds a centered region that can carry a different value from its surround, so narrowing the sampling window reads the near matrix instead of the far one. Both are valid QR codes inside one picture.</p>
+        </fieldset>
+
         <label class="alignment-control">Sampling aperture <output id="dualApertureValue">7 x 7 px / near</output><input id="dualAperture" type="range" min="7" max="29" step="2" value="7"></label>
         <div class="action-row" role="group" aria-label="Sampling presets"><button type="button" data-dual-view="near">Sample near</button><button type="button" data-dual-view="far">Sample far</button><button type="button" data-dual-view="composite">Show module structure</button><button class="quiet" id="saveDual" type="button">Save full-resolution PNG</button></div>
 
@@ -67,5 +76,6 @@
   <script src="../js/decoder.js"></script>
   <script src="../js/dual-message.js"></script>
   <script src="../js/nested.js"></script>
+  <script src="../js/predict.js"></script>
 </body>
 </html>

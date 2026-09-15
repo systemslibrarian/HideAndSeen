@@ -41,6 +41,15 @@
         <div class="slider-grid">
           <label>Fixed codeword changes <output id="intentionalValue">0</output><input id="intentional" type="range" min="0" max="32" value="16"></label>
           <label>Additional simulated damage <output id="noiseValue">0</output><input id="noise" type="range" min="0" max="12" value="0"></label>
+          <fieldset class="predict" data-predict data-predict-answer="abrupt" data-predict-reveal='#breakIt'>
+            <legend>Predict first</legend>
+            <p class="predict-question">You are about to push the number of changed codewords past the correction budget. How does the symbol fail?</p>
+            <label><input type="radio" value="gradual"> Gradually &mdash; it degrades</label>
+            <label><input type="radio" value="abrupt"> Abruptly &mdash; it stops decoding</label>
+            <p class="predict-outcome" data-predict-outcome aria-live="polite"></p>
+            <p class="predict-why" data-predict-why hidden>Reed&ndash;Solomon repairs up to a fixed number of wrong codewords per block and no more. One past that limit and the block cannot be recovered at all. The failure is a cliff rather than a slope, which is why hiding in this channel means counting carefully.</p>
+          </fieldset>
+
           <button id="breakIt" class="quiet" type="button">Exceed correction limit</button>
         </div>
         <div class="placement-switch" role="group" aria-label="Codeword placement strategy">
@@ -111,5 +120,6 @@
   <script src="../js/decoder.js"></script>
   <script src="../js/ecc-model.js"></script>
   <script src="../js/ecc-exhibit.js"></script>
+  <script src="../js/predict.js"></script>
 </body>
 </html>

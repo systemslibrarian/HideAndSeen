@@ -15,6 +15,15 @@
 
     <section class="band ruled" aria-labelledby="distribution-title"><div class="wrap">
       <div class="section-heading"><div><p class="section-number">STATISTICAL LAB</p><h2 id="distribution-title">Watch evidence accumulate</h2></div><p>Eight abstract choices stand in for masks, segment plans, or another legal encoder decision. The model does not produce operational steganography.</p></div>
+      <fieldset class="predict" data-predict data-predict-answer="no" data-predict-reveal='#distributionForm button[type=submit]'>
+        <legend>Predict first</legend>
+        <p class="predict-question">Naive hiding maps three secret bits straight onto the eight choices, making every choice equally likely. Will that look like ordinary encoder behaviour?</p>
+        <label><input type="radio" value="yes"> Yes &mdash; every choice is legal</label>
+        <label><input type="radio" value="no"> No &mdash; it stands out</label>
+        <p class="predict-outcome" data-predict-outcome aria-live="polite"></p>
+        <p class="predict-why" data-predict-why hidden>Ordinary encoders choose unevenly, because their choices follow penalty rules and payload structure. Mapping secret bits directly makes the choices uniform, and against an uneven cover model uniformity is itself the anomaly.</p>
+      </fieldset>
+
       <form id="distributionForm" class="control-strip distribution-controls">
         <label>Samples <output id="distributionCount">400</output><input id="distributionSamples" type="range" min="40" max="1200" step="40" value="400"></label>
         <label>Deterministic seed<input id="distributionSeed" value="museum-2026" maxlength="40"></label>
@@ -56,5 +65,6 @@
   <script src="../js/site.js"></script>
   <script src="../js/distribution-model.js"></script>
   <script src="../js/distribution.js"></script>
+  <script src="../js/predict.js"></script>
 </body>
 </html>

@@ -30,6 +30,15 @@
           <div><p class="section-number">LIVE COMPARISON</p><h2 id="fingerprint-title">Same payload, different defaults</h2></div>
           <p>HideAndSeen currently encodes one byte segment by default. node-qrcode optimizes segmentation and uses its own mask scoring.</p>
         </div>
+        <fieldset class="predict" data-predict data-predict-answer="no" data-predict-reveal='#fingerprintBuilder button[type=submit]'>
+          <legend>Predict first</legend>
+          <p class="predict-question">Two independent, standards-compliant encoders are about to encode the same payload. Will they produce the same symbol?</p>
+          <label><input type="radio" value="yes"> Yes &mdash; the standard determines it</label>
+          <label><input type="radio" value="no"> No &mdash; they will differ</label>
+          <p class="predict-outcome" data-predict-outcome aria-live="polite"></p>
+          <p class="predict-why" data-predict-why hidden>Version, error-correction level, mask and segmentation are choices the standard permits rather than dictates, so two honest encoders routinely disagree. This is why a difference from a reference symbol is not by itself evidence of hiding.</p>
+        </fieldset>
+
         <form id="fingerprintBuilder" class="control-strip regen-controls">
           <label>Overt message<input id="fingerprintText" value="https://ciphermuseum.com/profile/8675309" spellcheck="false"></label>
           <button type="submit">Compare encoders</button>
@@ -91,5 +100,6 @@
   <script src="../js/qr-inspect.js"></script>
   <script src="../js/encoder-adapters.js"></script>
   <script src="../js/fingerprints.js"></script>
+  <script src="../js/predict.js"></script>
 </body>
 </html>
