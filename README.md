@@ -22,9 +22,9 @@ Its central lesson is simple:
 **Hidden is not the same as unfindable.**
 
 > **Publishing note:** this repository does not redistribute third-party
-> research papers. Every reference below links to a DOI or a free copy offered
-> by the publisher or author. See [`PRE-PUBLISH.md`](PRE-PUBLISH.md) for the
-> policy and the automated guard that enforces it.
+> research papers, and never has in any commit. Every reference below links to
+> a DOI, or to a free copy offered by the publisher or author. A workflow fails
+> the build if a third-party paper is ever committed to `articles/`.
 
 ## Live teaching exhibits
 

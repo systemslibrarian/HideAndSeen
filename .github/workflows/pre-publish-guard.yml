@@ -1,9 +1,21 @@
 name: Pre-publish guard
 
 # Fails if this repository is public while third-party papers under articles/
-# are still tracked OR still reachable anywhere in Git history. See
-# PRE-PUBLISH.md. This is a backstop: it can only fire once the repo is already
-# public, so it limits damage rather than preventing it.
+# are tracked, OR still reachable anywhere in Git history.
+#
+# Policy: this repository does not redistribute third-party research papers.
+# They are fine in a private repo as a personal research copy; in a public one
+# they redistribute paywalled work. articles/ has never been committed to this
+# repository's history and must stay that way.
+#
+# Deleting such files in a later commit is NOT enough. Git keeps every
+# committed version, so the blobs stay reachable to anyone who clones. Removing
+# them properly means rewriting history -- git filter-repo --path articles/
+# --invert-paths -- and force-pushing, before the files ever reach a public
+# remote. Afterwards, assume they were cloned or indexed.
+#
+# This is a backstop: it can only fire once the repo is already public, so it
+# limits damage rather than preventing it.
 
 on:
   push:
@@ -60,17 +72,17 @@ jobs:
           fi
 
           if [ -z "${restricted}" ] && [ -n "${hist}" ]; then
-            echo "::error title=Third-party papers reachable in history of a public repository::See PRE-PUBLISH.md"
+            echo "::error title=Third-party papers reachable in history of a public repository::See this workflow's header for the procedure"
             echo ""
             echo "These are deleted from the tree but STILL REACHABLE in Git history:"
             echo ""
             echo "${hist}" | sed 's/^/  /'
             echo ""
-            echo "Run the git-filter-repo procedure in PRE-PUBLISH.md, then force-push."
+            echo "Run: git filter-repo --path articles/ --invert-paths, then force-push."
             exit 1
           fi
 
-          echo "::error title=Third-party papers tracked in a public repository::See PRE-PUBLISH.md"
+          echo "::error title=Third-party papers tracked in a public repository::Remove them and rewrite history"
           echo ""
           echo "This repository is PUBLIC and the following third-party PDFs are tracked."
           echo "Publishing them redistributes paywalled work."
@@ -78,5 +90,5 @@ jobs:
           echo "${restricted}" | sed 's/^/  /'
           echo ""
           echo "Deleting them in a new commit is NOT enough - the blobs stay in history."
-          echo "See PRE-PUBLISH.md for the git-filter-repo procedure."
+          echo "Run: git filter-repo --path articles/ --invert-paths, then force-push."
           exit 1
