@@ -25,7 +25,7 @@ test.beforeEach(async ({ page }) => {
 test("home renders the exhibit index and a live QR", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Hide And Seen" })).toBeVisible();
-  await expect(page.locator("[data-exhibit-index] li")).toHaveCount(13);
+  await expect(page.locator("[data-exhibit-index] li")).toHaveCount(14);
   await expectCanvasInk(page, "#heroQr");
   await page.keyboard.press("Tab");
   await expect(page.locator(":focus")).toHaveAttribute("href", "#main");
@@ -275,7 +275,7 @@ test("challenge ordinary case leaves tested checks clean", async ({ page }) => {
 
 test("papers page documents every exhibit without private PDF links", async ({ page }) => {
   await page.goto("/learn/papers.html");
-  await expect(page.locator(".research-entry")).toHaveCount(13);
+  await expect(page.locator(".research-entry")).toHaveCount(14);
   await expect(page.locator(".research-entry#padding")).toContainText("FULL");
   await expect(page.locator(".research-entry#attribution")).toContainText("53.52%");
   await expect(page.locator('a[href*="articles/"]')).toHaveCount(0);
@@ -327,8 +327,8 @@ test("the first and last exhibits fall back to the index and the papers page", a
   await page.goto("/exhibits/padding.html");
   await expect(page.locator(".exhibit-step.prev")).toContainText("Back to all exhibits");
   await expect(page.locator(".exhibit-step.next")).toContainText("EXHIBIT 02");
-  await page.goto("/exhibits/base-rate.html");
-  await expect(page.locator(".exhibit-step.prev")).toContainText("EXHIBIT 12");
+  await page.goto("/exhibits/adversary.html");
+  await expect(page.locator(".exhibit-step.prev")).toContainText("EXHIBIT 13");
   await expect(page.locator(".exhibit-step.next")).toContainText("Research notes");
 });
 
@@ -445,7 +445,7 @@ test("the base rate gate settles on its own check button", async ({ page }) => {
 
 test("every predicting exhibit carries exactly one gate with an answer", async ({ page }) => {
   const pages = ["padding", "segmentation", "ecc", "fingerprints", "secret-sharing",
-                 "steganalysis", "nested", "distribution", "base-rate"];
+                 "steganalysis", "nested", "distribution", "base-rate", "adversary"];
   for (const name of pages) {
     await page.goto(`/exhibits/${name}.html`);
     const gate = page.locator(".predict");
@@ -462,7 +462,7 @@ test("every predicting exhibit carries exactly one gate with an answer", async (
 test("every exhibit states what the reader should be able to do", async ({ page }) => {
   const pages = ["padding", "segmentation", "ecc", "multi-secret", "two-level",
                  "secret-sharing", "nested", "steganalysis", "fingerprints",
-                 "attribution", "distribution", "challenge", "base-rate"];
+                 "attribution", "distribution", "challenge", "base-rate", "adversary"];
   for (const name of pages) {
     await page.goto(`/exhibits/${name}.html`);
     const objective = page.locator(".objective");
@@ -486,4 +486,49 @@ test("attribution shows the per-encoder spread, not just the aggregate", async (
   const widths = await page.locator("#encoderSpread .encoder-track i").evaluateAll(
     els => els.map(el => Number.parseFloat(el.style.width)));
   expect(widths).toEqual([...widths].sort((a, b) => b - a));
+});
+
+test("two good checks still leave an informed adversary a channel", async ({ page }) => {
+  await page.goto("/exhibits/adversary.html");
+  // defaults: padding inspection + parity check
+  await expect(page.locator("#adversaryChecks")).toHaveText("2");
+  await expect(page.locator(".coverage-list li.open")).toHaveCount(3);
+  await expect(page.locator(".coverage-list li.chosen")).toHaveCount(1);
+  await expect(page.locator("#adversaryVerdict")).toContainText("reports clean");
+  // work is done, nothing real is found
+  await expect(page.locator("#adversaryReal")).toHaveText("0");
+  await expect(page.locator("#adversaryPrecision")).toHaveText("0.0%");
+  await expect(page.locator("#adversaryAlarms")).not.toHaveText("0");
+});
+
+test("covering every channel closes the gap but costs more false alarms", async ({ page }) => {
+  await page.goto("/exhibits/adversary.html");
+  const alarmsBefore = Number((await page.locator("#adversaryAlarms").textContent()).replace(/,/g, ""));
+  for (const id of ["segments", "magnification", "regeneration", "distribution"]) {
+    await page.locator(`#det-${id}`).check();
+  }
+  await expect(page.locator(".coverage-list li.open")).toHaveCount(0);
+  await expect(page.locator("#adversaryVerdict")).toContainText("Every channel this site implements is covered");
+  await expect(page.locator("#adversaryReal")).toHaveText("10");
+  const alarmsAfter = Number((await page.locator("#adversaryAlarms").textContent()).replace(/,/g, ""));
+  expect(alarmsAfter).toBeGreaterThan(alarmsBefore);
+});
+
+test("the coverage map only names channels and checks the site implements", async ({ page }) => {
+  await page.goto("/exhibits/adversary.html");
+  const model = await page.evaluate(() => {
+    const api = window.HideAndSeenAdversary;
+    return {
+      detectors: api.DETECTORS.map(d => d.id),
+      caught: api.CHANNELS.flatMap(c => c.caughtBy),
+      links: api.CHANNELS.map(c => c.href)
+    };
+  });
+  // every catcher named by a channel must be a real detector
+  for (const id of model.caught) expect(model.detectors).toContain(id);
+  // and every channel must link to an exhibit that exists
+  for (const href of model.links) {
+    const response = await page.request.get(`/exhibits/${href}`);
+    expect(response.status(), href).toBe(200);
+  }
 });

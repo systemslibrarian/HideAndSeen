@@ -16,7 +16,8 @@
     ["10", "Can You Guess the Encoder?", "A weak forensic signal becomes a game.", "exhibits/attribution.html", "DATA", "read a confusion matrix rather than a headline accuracy, and say why better-than-chance is not attribution."],
     ["11", "Distribution Matching", "Model the cover before selecting variants.", "exhibits/distribution.html", "MODEL", "explain why a hidden channel can be invisible in any one symbol and obvious across many of them."],
     ["12", "The Detection Challenge", "Choose the right analytical tool.", "exhibits/challenge.html", "LIVE", "choose an instrument that matches the layer you suspect, and defend a verdict of clean."],
-    ["13", "The Base Rate", "What an alarm is worth depends on how rare hiding is.", "exhibits/base-rate.html", "MODEL", "compute what one alarm is actually worth, and say why specificity matters more than sensitivity when the target is rare."]
+    ["13", "The Base Rate", "What an alarm is worth depends on how rare hiding is.", "exhibits/base-rate.html", "MODEL", "compute what one alarm is actually worth, and say why specificity matters more than sensitivity when the target is rare."],
+    ["14", "The Adaptive Adversary", "The opponent reads your method before choosing a channel.", "exhibits/adversary.html", "MODEL", "state which layers an analysis actually covered, and say why a detection rate measured against a passive adversary is an upper bound."]
   ];
 
   function path(relative) {

@@ -372,6 +372,21 @@ blockquote { max-width: 46rem; margin: 2rem 0; border-left: 3px solid var(--acce
 .encoder-track i { display: block; height: 100%; background: var(--ink); }
 .encoder-track b { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--accent); }
 .encoder-value { font-family: var(--mono); font-size: .78rem; text-align: right; }
+.detector-rack { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.detector { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .75rem; align-items: start; padding: 1rem; background: var(--paper-bright); cursor: pointer; }
+.detector input { min-height: auto; width: auto; margin-top: .2rem; accent-color: var(--accent); }
+.detector strong { display: block; font-size: .95rem; }
+.detector em { display: block; margin-top: .1rem; color: var(--muted); font-family: var(--mono); font-size: .66rem; font-style: normal; letter-spacing: .06em; text-transform: uppercase; }
+.detector-weakness { display: block; margin-top: .45rem; color: var(--muted); font-size: .82rem; }
+.detector:has(input:checked) { background: var(--paper); }
+.adversary-rate { display: grid; gap: .35rem; max-width: 26rem; margin: 2rem 0; color: var(--muted); font-size: .78rem; }
+.coverage-list { margin: 2.5rem 0 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+.coverage-list li { display: grid; grid-template-columns: 6rem minmax(0, 1fr) minmax(0, 1.2fr); gap: 1rem; align-items: baseline; border-bottom: 1px solid var(--rule); padding: .9rem 0; }
+.coverage-state { color: var(--muted); font-family: var(--mono); font-size: .66rem; letter-spacing: .06em; }
+.coverage-list li.open .coverage-state { color: var(--accent); font-weight: 500; }
+.coverage-list li.chosen { border-left: 3px solid var(--accent); padding-left: .75rem; }
+.coverage-list em { color: var(--muted); font-family: var(--mono); font-size: .66rem; font-style: normal; letter-spacing: .06em; text-transform: uppercase; }
+.coverage-note { color: var(--muted); font-size: .85rem; }
 .results-heading { margin-top: 4rem; }
 .confusion-table td { text-align: center; }
 .confusion-table .diagonal { color: var(--paper-bright); background: var(--ink); font-weight: 600; }
@@ -506,6 +521,7 @@ blockquote { max-width: 46rem; margin: 2rem 0; border-left: 3px solid var(--acce
 .exhibit-step:hover strong, .exhibit-step:focus-visible strong { color: var(--accent); }
 
 @media (max-width: 760px) {
+  .coverage-list li { grid-template-columns: 1fr; gap: .3rem; }
   .site-links { flex-wrap: wrap; }
   .glossary-list > div { grid-template-columns: 1fr; gap: .3rem; }
   .base-rate-stage { grid-template-columns: 1fr; }

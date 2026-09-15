@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Adversary Reads This Too | HideAndSeen</title>
+  <meta name="description" content="Every detector on this site is public. What happens when the person hiding knows which checks you run?">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="exhibits">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">EXHIBIT 14</p>
+        <div>
+          <p class="kicker">THE ADAPTIVE ADVERSARY</p>
+          <h1>Every detector here is published. So is the way around it.</h1>
+          <p class="lede">The twelve exhibits before this one each measured a detector against someone who was not trying to avoid it. That is the wrong opponent. A real one reads the same page you do, and chooses the layer you are not checking.</p>
+          <p class="status-tag">MODEL / COVERAGE MAP OF THIS SITE'S OWN MECHANISMS / ILLUSTRATIVE ERROR RATE</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="coverage-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">COVERAGE</p><h2 id="coverage-title">Choose what you check</h2></div>
+          <p>Every check below is demonstrated somewhere on this site, and so is every channel it does or does not cover.</p>
+        </div>
+
+        <fieldset class="predict" data-predict data-predict-answer="no" data-predict-reveal="#det-segments, #det-magnification, #det-regeneration, #det-distribution, #det-padding, #det-parity">
+          <legend>Predict first</legend>
+          <p class="predict-question">You are running the padding check and the parity check &mdash; two solid, published detectors. Someone who has read this site wants to hide a message from you. Will your checks fire?</p>
+          <label><input type="radio" value="yes"> Yes, two good checks will catch it</label>
+          <label><input type="radio" value="no"> No, they will report clean</label>
+          <p class="predict-outcome" data-predict-outcome aria-live="polite"></p>
+          <p class="predict-why" data-predict-why hidden>They report clean. An adversary who knows which layers you inspect simply uses a different one &mdash; segment mode choice, sub-module structure, or shaped selection. The quality of your two checks is irrelevant to a channel they do not look at.</p>
+        </fieldset>
+
+        <form id="adversaryForm" class="adversary-form">
+          <div class="detector-rack" id="detectorRack" role="group" aria-label="Checks you are running"></div>
+        </form>
+
+        <p class="finding-box" id="adversaryVerdict" aria-live="polite">&#8212;</p>
+
+        <ol class="coverage-list" id="coverageList" aria-label="Channel coverage"></ol>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="cost-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">THE COST OF CLOSING GAPS</p><h2 id="cost-title">Every check you add is another chance to be wrong</h2></div>
+          <p>The obvious answer to an open channel is to check that layer too. <a href="base-rate.html">Exhibit 13</a> explains why that is not free.</p>
+        </div>
+
+        <label class="control-strip adversary-rate">Per-check false-positive rate <output id="adversaryFpValue">2.0%</output><input id="adversaryFp" type="range" min="0.1" max="10" step="0.1" value="2"></label>
+
+        <div class="metric-banner">
+          <div><span>CHECKS RUNNING</span><strong id="adversaryChecks">&#8212;</strong></div>
+          <div><span>SYMBOLS THAT ALARM</span><strong id="adversaryAlarms">&#8212;</strong></div>
+          <div><span>ALARMS THAT ARE REAL</span><strong id="adversaryReal">&#8212;</strong></div>
+          <div><span>AN ALARM IS RIGHT</span><strong id="adversaryPrecision">&#8212;</strong></div>
+        </div>
+
+        <div class="readout-stack">
+          <article class="readout"><p>WHAT ADDING CHECKS COSTS</p><output id="adversaryCost">&#8212;</output></article>
+          <article class="readout"><p>WHAT YOU ACTUALLY REPORT</p><output id="adversaryOutcome">&#8212;</output></article>
+        </div>
+
+        <p class="research-note">Hiding occurs in 1 symbol per 1,000, as in exhibit 13, and the per-check rate is a parameter you set rather than a measured property of these checks. Independence between checks is assumed, which is generous: correlated checks would be worse, not better.</p>
+      </div>
+    </section>
+
+    <section class="band ruled four-questions" aria-labelledby="fourq-adversary">
+      <div class="wrap thesis-grid">
+        <p class="section-number">THE FOUR QUESTIONS</p>
+        <div>
+          <h2 id="fourq-adversary">Ask four questions of your own method.</h2>
+          <div class="readout-stack">
+            <article class="readout"><p>WHAT THE SCANNER SEES</p><output>An ordinary payload, exactly as in every exhibit before this one. Nothing about an adversary's knowledge of your methods is visible in the symbol.</output></article>
+            <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output>Not the symbol &#8212; the opponent. The channel is chosen after reading which layers you inspect, so your published method becomes an input to their design.</output></article>
+            <article class="readout"><p>WHAT A SECOND READER CAN RECOVER</p><output>Whatever the uncovered channel carries. The payload is recovered exactly as before; the only thing that changed is which mechanism was used to carry it.</output></article>
+            <article class="readout"><p>HOW AN ANALYST CAN NOTICE</p><output>By checking the layer that was actually used, which means either checking all of them or knowing something about this opponent. A clean result from the checks you ran clears those layers and nothing else.</output></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band conclusion-band">
+      <div class="wrap thesis-grid">
+        <p class="section-number">FINDING</p>
+        <div>
+          <h2>A detection rate measured against a passive adversary is an upper bound, not an operating point.</h2>
+          <p>Every number reported on this site &mdash; the padding check that flags reliably, the 53.52% attribution accuracy, the chi-square that separates naive hiding &mdash; was measured against samples that were not built to evade it. Those measurements are honest and they are also the best case. Against someone who selects their channel after reading the method, the same detector's real-world rate is whatever the uncovered layers allow, which can be zero while the detector itself remains exactly as good as advertised.</p>
+          <blockquote>Assume the opponent knows the method. If the method only works while it is secret, it is not a method.</blockquote>
+          <p>This is Kerckhoffs's principle pointed at detection rather than encryption, and it has an uncomfortable consequence. Closing a gap means adding a check, and <a href="base-rate.html">every added check multiplies the false alarms</a>. Complete coverage against a rare target is not merely expensive &mdash; it can produce a queue in which almost nothing is real. The honest position is to state which layers were examined, and to claim nothing about the others.</p>
+          <p class="research-note"><strong>Basis:</strong> the coverage map is this repository's own mechanisms and checks, so it can be verified against the exhibits it names. The wider argument that laboratory detection rates overstate real-world performance is made in Andrew D. Ker et al., &ldquo;Moving Steganography and Steganalysis from the Laboratory into the Real World,&rdquo; IH&amp;MMSec 2013, <a href="https://doi.org/10.1145/2482513.2482965">doi:10.1145/2482513.2482965</a> <span class="grade second">2ND</span>. No adaptive-adversary experiment is reproduced here; this exhibit is a model of the site's own coverage.</p>
+          <a class="arrow-link" href="../learn/papers.html#adversary">Read the research note <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/site.js"></script>
+  <script src="../js/adversary.js"></script>
+  <script src="../js/predict.js"></script>
+</body>
+</html>
