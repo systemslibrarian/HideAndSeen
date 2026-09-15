@@ -42,11 +42,19 @@ Its central lesson is simple:
 | 10 | [Can You Guess the Encoder?](docs/exhibits/attribution.html) | Corrected held-out attribution experiment and game |
 | 11 | [Distribution Matching](docs/exhibits/distribution.html) | Clearly labeled synthetic model of general steganography concepts |
 | 12 | [The Detection Challenge](docs/exhibits/challenge.html) | Capstone using eight analyst tools across five generated case types |
+| 13 | [The Base Rate](docs/exhibits/base-rate.html) | Model of what an alarm is worth once prevalence is taken into account |
+| 14 | [The Adaptive Adversary](docs/exhibits/adversary.html) | Coverage map of this site's own channels against its own checks |
 
-The site also includes [interactive QR anatomy](docs/learn/anatomy.html) and an
-exhibit-by-exhibit [Papers and Methods guide](docs/learn/papers.html). The guide
-states the source, verification grade, implementation relationship,
-simplification, and detection lesson for every exhibit.
+Every exhibit answers the same four questions about its symbol, states what a
+reader should be able to do afterwards, and links to the exhibits either side of
+it. Ten of them ask for a prediction before revealing the answer.
+
+The site also includes [interactive QR anatomy](docs/learn/anatomy.html), a
+[glossary](docs/learn/glossary.html) of the structure, error-correction,
+steganography and detection terms the exhibits assume, and an exhibit-by-exhibit
+[Papers and Methods guide](docs/learn/papers.html). The guide states the source,
+verification grade, implementation relationship, simplification, and detection
+lesson for every exhibit.
 
 ## Research basis
 
@@ -103,7 +111,7 @@ Current validated baseline:
   distribution sampling.
 - **5** Python extraction tests pass, including numeric, alphanumeric, byte, and
   mixed-mode streams.
-- **40** Playwright checks pass across desktop and mobile projects.
+- **88** Playwright checks pass across desktop and mobile projects.
 - **432/432** rendered QR symbols decode to their expected overt payload with
   independent ZXing verification; four requested combinations are skipped
   because they do not fit versions 1–12.
