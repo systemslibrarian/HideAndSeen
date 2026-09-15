@@ -532,3 +532,27 @@ test("the coverage map only names channels and checks the site implements", asyn
     expect(response.status(), href).toBe(200);
   }
 });
+
+// The note previously claimed independence was "generous" and that correlated
+// checks "would be worse, not better". That is unsound: positive correlation
+// shrinks the combined false-alarm rate and the combined coverage together, and
+// because false alarms dominate precision at 1-in-1,000, the net effect on
+// precision is unsigned. These tests pin the corrected wording.
+test("the adversary exhibit claims no direction for the independence assumption", async ({ page }) => {
+  await page.goto("/exhibits/adversary.html");
+  const note = page.locator(".research-note").first();
+  await expect(note).toContainText("simplification rather than a bound");
+  await expect(note).toContainText("overstates combined coverage and combined alarm volume together");
+  await expect(note).toContainText("can land either side of what this model reports");
+  await expect(note).toContainText("The sign of that error is not something this exhibit can establish");
+  await expect(note).not.toContainText("generous");
+  await expect(note).not.toContainText("worse, not better");
+});
+
+test("the research record makes the same unsigned claim about independence", async ({ page }) => {
+  await page.goto("/learn/papers.html");
+  const simplified = page.locator(".research-entry#adversary .research-facts div", { hasText: "Simplified" });
+  await expect(simplified).toContainText("simplification rather than a bound");
+  await expect(simplified).toContainText("its net effect there is unsigned");
+  await expect(simplified).not.toContainText("generous");
+});
