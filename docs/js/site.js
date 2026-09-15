@@ -52,5 +52,30 @@
     }
   }
 
+  // Exhibit sequence. Derived from the list above, so a new exhibit gets
+  // previous/next navigation without touching any exhibit page.
+  const position = exhibits.findIndex(entry => location.pathname.endsWith(entry[3]));
+  const main = document.getElementById("main");
+  if (position >= 0 && main) {
+    const step = (entry, direction) => {
+      const word = direction === "prev" ? "PREVIOUS" : "NEXT";
+      if (entry) {
+        return `<a class="exhibit-step ${direction}" href="${path(entry[3])}"><span>${word} &middot; EXHIBIT ${entry[0]}</span><strong>${entry[1]}</strong></a>`;
+      }
+      const [label, href] = direction === "prev"
+        ? ["All twelve exhibits", "index.html#exhibits-title"]
+        : ["Research notes and references", "learn/papers.html"];
+      return `<a class="exhibit-step ${direction}" href="${path(href)}"><span>${word}</span><strong>${label}</strong></a>`;
+    };
+    const section = document.createElement("section");
+    section.className = "exhibit-nav-band";
+    section.innerHTML = `<nav class="wrap exhibit-nav" aria-label="Exhibit sequence">${
+      step(position > 0 ? exhibits[position - 1] : null, "prev")
+    }${
+      step(position < exhibits.length - 1 ? exhibits[position + 1] : null, "next")
+    }</nav>`;
+    main.appendChild(section);
+  }
+
   window.HideAndSeenSite = Object.freeze({ exhibits, root, path });
 })();

@@ -312,3 +312,22 @@ test("challenge treats an undecided verdict as defensible but incomplete", async
   await expect(page.locator("#caseScore")).toHaveAttribute("data-outcome", "partial");
   await expect(page.locator("#caseScore")).toContainText("Defensible");
 });
+
+test("exhibits link to their neighbours in sequence", async ({ page }) => {
+  await page.goto("/exhibits/ecc.html");
+  const steps = page.locator(".exhibit-step");
+  await expect(steps).toHaveCount(2);
+  await expect(steps.first()).toContainText("EXHIBIT 02");
+  await expect(steps.last()).toContainText("EXHIBIT 04");
+  await steps.last().click();
+  await expect(page).toHaveURL(/multi-secret\.html$/);
+});
+
+test("the first and last exhibits fall back to the index and the papers page", async ({ page }) => {
+  await page.goto("/exhibits/padding.html");
+  await expect(page.locator(".exhibit-step.prev")).toContainText("All twelve exhibits");
+  await expect(page.locator(".exhibit-step.next")).toContainText("EXHIBIT 02");
+  await page.goto("/exhibits/challenge.html");
+  await expect(page.locator(".exhibit-step.prev")).toContainText("EXHIBIT 11");
+  await expect(page.locator(".exhibit-step.next")).toContainText("Research notes");
+});

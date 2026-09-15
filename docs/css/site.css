@@ -461,7 +461,17 @@ blockquote { max-width: 46rem; margin: 2rem 0; border-left: 3px solid var(--acce
 .reveal { animation: reveal .55s ease both; }
 @keyframes reveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
+.exhibit-nav-band { border-top: 1px solid var(--rule); padding-block: 2.75rem; }
+.exhibit-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 3rem; }
+.exhibit-step { display: grid; align-content: start; gap: .35rem; text-decoration: none; color: inherit; }
+.exhibit-step.next { text-align: right; }
+.exhibit-step span { color: var(--muted); font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; }
+.exhibit-step strong { font-size: 1.05rem; font-weight: 600; line-height: 1.25; }
+.exhibit-step:hover strong, .exhibit-step:focus-visible strong { color: var(--accent); }
+
 @media (max-width: 760px) {
+  .exhibit-nav { grid-template-columns: 1fr; }
+  .exhibit-step.next { text-align: left; }
   .site-nav { align-items: flex-start; flex-direction: column; gap: .5rem; padding-block: .8rem; }
   .site-links { width: 100%; justify-content: space-between; gap: .4rem; padding-bottom: .4rem; }
   .site-links a { font-size: .68rem; white-space: nowrap; }
