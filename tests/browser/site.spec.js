@@ -25,7 +25,7 @@ test.beforeEach(async ({ page }) => {
 test("home renders the exhibit index and a live QR", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Hide And Seen" })).toBeVisible();
-  await expect(page.locator("[data-exhibit-index] li")).toHaveCount(12);
+  await expect(page.locator("[data-exhibit-index] li")).toHaveCount(13);
   await expectCanvasInk(page, "#heroQr");
   await page.keyboard.press("Tab");
   await expect(page.locator(":focus")).toHaveAttribute("href", "#main");
@@ -275,7 +275,7 @@ test("challenge ordinary case leaves tested checks clean", async ({ page }) => {
 
 test("papers page documents every exhibit without private PDF links", async ({ page }) => {
   await page.goto("/learn/papers.html");
-  await expect(page.locator(".research-entry")).toHaveCount(12);
+  await expect(page.locator(".research-entry")).toHaveCount(13);
   await expect(page.locator(".research-entry#padding")).toContainText("FULL");
   await expect(page.locator(".research-entry#attribution")).toContainText("53.52%");
   await expect(page.locator('a[href*="articles/"]')).toHaveCount(0);
@@ -325,9 +325,53 @@ test("exhibits link to their neighbours in sequence", async ({ page }) => {
 
 test("the first and last exhibits fall back to the index and the papers page", async ({ page }) => {
   await page.goto("/exhibits/padding.html");
-  await expect(page.locator(".exhibit-step.prev")).toContainText("All twelve exhibits");
+  await expect(page.locator(".exhibit-step.prev")).toContainText("Back to all exhibits");
   await expect(page.locator(".exhibit-step.next")).toContainText("EXHIBIT 02");
-  await page.goto("/exhibits/challenge.html");
-  await expect(page.locator(".exhibit-step.prev")).toContainText("EXHIBIT 11");
+  await page.goto("/exhibits/base-rate.html");
+  await expect(page.locator(".exhibit-step.prev")).toContainText("EXHIBIT 12");
   await expect(page.locator(".exhibit-step.next")).toContainText("Research notes");
+});
+
+test("base rate shows that a rare target makes most alarms false", async ({ page }) => {
+  await page.goto("/exhibits/base-rate.html");
+  // The grid itself carries the argument: false alarms swamp real detections.
+  const mix = await page.locator("#brGrid").evaluate(canvas => {
+    const data = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height).data;
+    let alarmsWrong = 0;
+    let alarmsRight = 0;
+    for (let index = 0; index < data.length; index += 4) {
+      const [r, g, b] = [data[index], data[index + 1], data[index + 2]];
+      if (r > 140 && r < 200 && g < 70 && b < 70) alarmsWrong += 1;
+      else if (r < 40 && g < 40 && b < 40) alarmsRight += 1;
+    }
+    return { alarmsWrong, alarmsRight };
+  });
+  expect(mix.alarmsRight).toBeGreaterThan(0);
+  expect(mix.alarmsWrong).toBeGreaterThan(mix.alarmsRight * 10);
+
+  // Defaults: 1 in 1,000 prevalence with a 95% / 95% detector.
+  await expect(page.locator("#brAlarms")).toHaveText("510");
+  await expect(page.locator("#brTrue")).toHaveText("10");
+  await expect(page.locator("#brPpv")).toHaveText("2.0%");
+  await expect(page.locator("#brHeadline")).toContainText("98.0% of every alarm you investigate is clean");
+});
+
+test("base rate improves when the target is common", async ({ page }) => {
+  await page.goto("/exhibits/base-rate.html");
+  await page.locator("#brPrevalence").fill("0"); // 1 in 10
+  await expect(page.locator("#brPrevalenceValue")).toHaveText("1 in 10");
+  const precision = await page.locator("#brPpv").textContent();
+  expect(Number.parseFloat(precision)).toBeGreaterThan(50);
+});
+
+test("base rate arithmetic conserves the population", async ({ page }) => {
+  await page.goto("/exhibits/base-rate.html");
+  const totals = await page.evaluate(() => {
+    const api = window.HideAndSeenBaseRate;
+    return api.PREVALENCES.map(oneIn => {
+      const r = api.tally({ oneIn, sensitivity: 0.93, specificity: 0.971 });
+      return r.truePositive + r.falseNegative + r.falsePositive + r.trueNegative;
+    });
+  });
+  for (const total of totals) expect(total).toBe(10000);
 });

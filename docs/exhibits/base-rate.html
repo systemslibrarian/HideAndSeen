@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Base Rate | HideAndSeen</title>
+  <meta name="description" content="A detector's accuracy does not tell you what one of its alarms is worth. Prevalence does.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="exhibits">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">EXHIBIT 13</p>
+        <div>
+          <p class="kicker">WHAT AN ALARM IS WORTH</p>
+          <h1>A 95% accurate detector can be wrong almost every time it fires.</h1>
+          <p class="lede">Every exhibit before this one asked whether a hidden channel can be detected. This one asks the question that decides whether detection is useful: when the detector alarms, how often is it right?</p>
+          <p class="status-tag">ARITHMETIC / NO QR ENCODING / APPLIES TO EVERY DETECTOR ABOVE</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="base-rate-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">THE SEARCH POPULATION</p><h2 id="base-rate-title">Ten thousand symbols</h2></div>
+          <p>Set how often hiding actually occurs, and how good the instrument is. The grid below is one dot per symbol.</p>
+        </div>
+
+        <form id="baseRateForm" class="control-strip base-rate-controls">
+          <label>Hiding occurs in <output id="brPrevalenceValue">1 in 1,000</output><input id="brPrevalence" type="range" min="0" max="8" step="1" value="4"></label>
+          <label>Sensitivity <output id="brSensitivityValue">95.0%</output><input id="brSensitivity" type="range" min="50" max="100" step="0.5" value="95"></label>
+          <label>Specificity <output id="brSpecificityValue">95.0%</output><input id="brSpecificity" type="range" min="50" max="100" step="0.1" value="95"></label>
+        </form>
+
+        <p class="finding-box" id="brHeadline" aria-live="polite">&#8212;</p>
+
+        <div class="metric-banner">
+          <div><span>SYMBOLS THAT ALARM</span><strong id="brAlarms">&#8212;</strong></div>
+          <div><span>ALARMS THAT ARE REAL</span><strong id="brTrue">&#8212;</strong></div>
+          <div><span>AN ALARM IS RIGHT</span><strong id="brPpv">&#8212;</strong></div>
+          <div><span>HIDDEN AND MISSED</span><strong id="brMissed">&#8212;</strong></div>
+        </div>
+
+        <div class="base-rate-stage">
+          <figure class="specimen base-rate-figure">
+            <canvas id="brGrid" width="520" height="520" aria-label="Ten thousand symbols, one dot each, coloured by detector outcome"></canvas>
+            <figcaption>10,000 SYMBOLS / ONE DOT EACH</figcaption>
+          </figure>
+          <div>
+            <div class="byte-legend base-rate-legend" aria-label="Outcome colours">
+              <span><i class="swatch br-tp"></i>hidden, and caught</span>
+              <span><i class="swatch br-fn"></i>hidden, and missed</span>
+              <span><i class="swatch br-fp"></i>clean, but alarmed</span>
+              <span><i class="swatch br-tn"></i>clean, and quiet</span>
+            </div>
+            <div class="readout-stack">
+              <article class="readout"><p>WHAT THE INSTRUMENT DOES</p><output id="brInstrument">&#8212;</output></article>
+              <article class="readout"><p>WHAT THE POPULATION DOES</p><output id="brPopulation">&#8212;</output></article>
+              <article class="readout"><p>WHAT AN ANALYST SHOULD REPORT</p><output id="brReport">&#8212;</output></article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled four-questions" aria-labelledby="fourq-base-rate">
+      <div class="wrap thesis-grid">
+        <p class="section-number">THE FOUR QUESTIONS</p>
+        <div>
+          <h2 id="fourq-base-rate">Ask four questions of a number, not a symbol.</h2>
+          <div class="readout-stack">
+            <article class="readout"><p>WHAT THE SCANNER SEES</p><output>Nothing relevant. A base rate is a property of the population being searched, not of the symbol in front of you, and no amount of inspection of one code reveals it.</output></article>
+            <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output>Nothing. This exhibit takes a detector that already works exactly as advertised and asks what one of its outputs is actually worth.</output></article>
+            <article class="readout"><p>WHAT A SECOND READER CAN RECOVER</p><output>No hidden channel &#8212; there is none here. What a second reader needs is the prior: how often hiding truly occurs in the traffic being searched.</output></article>
+            <article class="readout"><p>HOW AN ANALYST CAN NOTICE</p><output>By computing the positive predictive value before acting on an alarm. Sensitivity and specificity describe the instrument; only prevalence says what a positive means.</output></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band conclusion-band">
+      <div class="wrap thesis-grid">
+        <p class="section-number">FINDING</p>
+        <div>
+          <h2>Accuracy is a property of the instrument. Meaning is a property of the population.</h2>
+          <p>Steganography is rare in ordinary traffic. When the thing you are looking for is rare, almost everything that alarms is a member of the large clean majority rather than the small hidden minority &#8212; even for an instrument that is right 95% of the time in both directions. Raising sensitivity barely moves this. Raising specificity moves it a great deal, because specificity is multiplied by the far larger number.</p>
+          <blockquote>A detector that never fires on clean symbols is worth more than one that never misses a hidden one.</blockquote>
+          <p>This is why every detection exhibit on this site reports what it cannot separate, and why <a href="steganalysis.html">regeneration-and-compare</a> spends a full scenario on an innocent encoder mismatch. A false-positive condition is not a footnote to a detection method. At realistic prevalence it is the dominant term.</p>
+          <p class="research-note"><strong>Basis:</strong> the arithmetic here is Bayes' rule and can be checked by hand from the grid. For why it matters specifically to steganalysis, see Andrew D. Ker et al., &ldquo;Moving Steganography and Steganalysis from the Laboratory into the Real World,&rdquo; IH&amp;MMSec 2013, <a href="https://doi.org/10.1145/2482513.2482965">doi:10.1145/2482513.2482965</a> <span class="grade second">2ND</span> &#8212; cited here as motivation, not independently re-verified.</p>
+          <a class="arrow-link" href="../learn/papers.html#base-rate">Read the research note <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/site.js"></script>
+  <script src="../js/base-rate.js"></script>
+</body>
+</html>

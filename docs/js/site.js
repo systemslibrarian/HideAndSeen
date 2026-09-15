@@ -15,7 +15,8 @@
     ["09", "Encoder Fingerprints", "Legal defaults leave behavioral traces.", "exhibits/fingerprints.html", "DATA"],
     ["10", "Can You Guess the Encoder?", "A weak forensic signal becomes a game.", "exhibits/attribution.html", "DATA"],
     ["11", "Distribution Matching", "Model the cover before selecting variants.", "exhibits/distribution.html", "MODEL"],
-    ["12", "The Detection Challenge", "Choose the right analytical tool.", "exhibits/challenge.html", "LIVE"]
+    ["12", "The Detection Challenge", "Choose the right analytical tool.", "exhibits/challenge.html", "LIVE"],
+    ["13", "The Base Rate", "What an alarm is worth depends on how rare hiding is.", "exhibits/base-rate.html", "MODEL"]
   ];
 
   function path(relative) {
@@ -63,7 +64,7 @@
         return `<a class="exhibit-step ${direction}" href="${path(entry[3])}"><span>${word} &middot; EXHIBIT ${entry[0]}</span><strong>${entry[1]}</strong></a>`;
       }
       const [label, href] = direction === "prev"
-        ? ["All twelve exhibits", "index.html#exhibits-title"]
+        ? ["Back to all exhibits", "index.html#exhibits-title"]
         : ["Research notes and references", "learn/papers.html"];
       return `<a class="exhibit-step ${direction}" href="${path(href)}"><span>${word}</span><strong>${label}</strong></a>`;
     };
