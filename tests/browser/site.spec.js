@@ -473,3 +473,17 @@ test("every exhibit states what the reader should be able to do", async ({ page 
     expect(text.length, name).toBeGreaterThan(40);
   }
 });
+
+test("attribution shows the per-encoder spread, not just the aggregate", async ({ page }) => {
+  await page.goto("/exhibits/attribution.html");
+  const rows = page.locator("#encoderSpread li");
+  await expect(rows).toHaveCount(5);
+  // ranked best-first, so the spread is the first thing read
+  await expect(rows.first()).toContainText("segno");
+  await expect(rows.first()).toContainText("91.2%");
+  await expect(rows.last()).toContainText("python-qrcode");
+  await expect(rows.last()).toContainText("35.2%");
+  const widths = await page.locator("#encoderSpread .encoder-track i").evaluateAll(
+    els => els.map(el => Number.parseFloat(el.style.width)));
+  expect(widths).toEqual([...widths].sort((a, b) => b - a));
+});

@@ -365,6 +365,13 @@ blockquote { max-width: 46rem; margin: 2rem 0; border-left: 3px solid var(--acce
 .metric-banner div:first-child { border-left: 0; }
 .metric-banner span { color: var(--muted); font-family: var(--mono); font-size: .65rem; }
 .metric-banner strong { font-size: 2rem; }
+.encoder-spread { margin: 0 0 3rem; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+.encoder-spread li { display: grid; grid-template-columns: minmax(6.5rem, .16fr) minmax(0, 1fr) 3.5rem; gap: 1rem; align-items: center; border-bottom: 1px solid var(--rule); padding: .7rem 0; }
+.encoder-name { overflow-wrap: anywhere; font-family: var(--mono); font-size: .76rem; }
+.encoder-track { position: relative; height: 1.35rem; border: 1px solid var(--rule); background: var(--paper-bright); }
+.encoder-track i { display: block; height: 100%; background: var(--ink); }
+.encoder-track b { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--accent); }
+.encoder-value { font-family: var(--mono); font-size: .78rem; text-align: right; }
 .results-heading { margin-top: 4rem; }
 .confusion-table td { text-align: center; }
 .confusion-table .diagonal { color: var(--paper-bright); background: var(--ink); font-weight: 600; }

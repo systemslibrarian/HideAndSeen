@@ -46,6 +46,17 @@
     element("skippedSymbols").textContent = Object.keys(data.method.skipped).length ? JSON.stringify(data.method.skipped) : "0";
     element("attributionFinding").textContent = `${percent(data.result.accuracy)} accuracy against a ${percent(data.result.chance, 0)} random baseline is scientifically interesting, but it leaves ${Math.round((1 - data.result.accuracy) * data.method.testSymbols)} of ${data.method.testSymbols} controlled test symbols misclassified.`;
 
+    // perEncoder is the real finding: the aggregate hides a spread from 91% to
+    // 35%, and the last column of a five-by-five table hides it almost as well.
+    const spread = element("encoderSpread");
+    if (spread) {
+      const baseline = (data.result.chance * 100).toFixed(1);
+      spread.innerHTML = Object.entries(data.result.perEncoder)
+        .sort((first, second) => second[1] - first[1])
+        .map(([name, value]) => `<li><span class="encoder-name">${name}</span><span class="encoder-track"><i style="width:${(value * 100).toFixed(1)}%"></i><b style="left:${baseline}%" title="random baseline"></b></span><span class="encoder-value">${percent(value)}</span></li>`)
+        .join("");
+    }
+
     const table = element("confusionTable");
     const short = name => name.replace("python-", "py-").replace("node-", "node-");
     table.innerHTML = `<thead><tr><th>True \\ predicted</th>${data.result.libraries.map(name => `<th>${short(name)}</th>`).join("")}<th>Recall</th></tr></thead><tbody>${data.result.libraries.map(actual => {
