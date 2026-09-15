@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Distribution Matching | HideAndSeen</title>
+  <meta name="description" content="Compare a normal cover distribution, naive secret mapping, and distribution-shaped selection.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="exhibits">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+  <main id="main">
+    <section class="exhibit-hero band"><div class="wrap exhibit-title-grid"><p class="exhibit-number">EXHIBIT 11</p><div><p class="kicker">CONCEPTS FROM GENERAL STEGANOGRAPHY THEORY</p><h1>A hidden channel also changes a distribution.</h1><p class="lede">If ordinary encoders choose among representations unevenly, mapping secret bits directly to choices can flatten that pattern. A better selection process tries to preserve the frequencies expected from innocent data.</p><p class="status-tag">SYNTHETIC CATEGORICAL MODEL / NO CLAIM OF PERFECT SECURITY</p></div></div></section>
+
+    <section class="band ruled" aria-labelledby="distribution-title"><div class="wrap">
+      <div class="section-heading"><div><p class="section-number">STATISTICAL LAB</p><h2 id="distribution-title">Watch evidence accumulate</h2></div><p>Eight abstract choices stand in for masks, segment plans, or another legal encoder decision. The model does not produce operational steganography.</p></div>
+      <form id="distributionForm" class="control-strip distribution-controls">
+        <label>Samples <output id="distributionCount">400</output><input id="distributionSamples" type="range" min="40" max="1200" step="40" value="400"></label>
+        <label>Deterministic seed<input id="distributionSeed" value="museum-2026" maxlength="40"></label>
+        <button type="submit">Generate samples</button>
+      </form>
+
+      <div class="histogram-grid">
+        <article class="histogram-panel"><p class="section-number">NORMAL COVER</p><h3>Expected encoder behavior</h3><canvas id="normalChart" width="360" height="230"></canvas><p id="normalStat" class="stat-line">&#8212;</p></article>
+        <article class="histogram-panel"><p class="section-number">NAIVE SECRET ENCODING</p><h3>Three bits map directly to eight choices</h3><canvas id="naiveChart" width="360" height="230"></canvas><p id="naiveStat" class="stat-line">&#8212;</p></article>
+        <article class="histogram-panel"><p class="section-number">DISTRIBUTION-SHAPED SELECTION</p><h3>Secret-derived draws follow the cover CDF</h3><canvas id="shapedChart" width="360" height="230"></canvas><p id="shapedStat" class="stat-line">&#8212;</p></article>
+      </div>
+
+      <div class="readout-stack distribution-readouts">
+        <article class="readout"><p>WHAT THE OBSERVER EXPECTS</p><output>Choices 0-7 occur with fixed, unequal probabilities in the synthetic cover model.</output></article>
+        <article class="readout"><p>WHAT NAIVE HIDING CHANGES</p><output id="distributionNaive">&#8212;</output></article>
+        <article class="readout"><p>WHAT SHAPING PRESERVES</p><output id="distributionShaped">&#8212;</output></article>
+        <article class="readout"><p>WHAT AN ANALYST CAN TEST</p><output id="distributionTest">&#8212;</output></article>
+      </div>
+    </div></section>
+
+    <section class="band conclusion-band"><div class="wrap thesis-grid"><p class="section-number">MODEL LIMIT</p><div><h2>Matching one visible distribution does not prove undetectability.</h2><p>The shaped samples are drawn from the same eight-choice probability model, so this particular chi-square test often cannot separate them from normal samples. A real system has dependencies, side channels, imperfect models, and more capable analysts.</p><p class="research-note"><strong>Conceptual basis:</strong> model-based and distribution-preserving ideas associated in this repository with Sallee, grey-box steganography, Meteor, Discop, minimum-entropy coupling, and set shaping. These references remain [2ND] unless upgraded in the research record. No named algorithm is reproduced here.</p><a class="arrow-link" href="../learn/papers.html#distribution">Read the research note <span aria-hidden="true">&#8594;</span></a></div></div></section>
+  </main>
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/site.js"></script>
+  <script src="../js/distribution-model.js"></script>
+  <script src="../js/distribution.js"></script>
+</body>
+</html>

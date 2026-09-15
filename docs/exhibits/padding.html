@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Padding Channel | HideAndSeen</title>
+  <meta name="description" content="Build a working QR code with a second message in its pad codewords, then detect it.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="exhibits">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">EXHIBIT 01</p>
+        <div>
+          <p class="kicker">THE PADDING CHANNEL</p>
+          <h1>Two codes. One extra message.</h1>
+          <p class="lede">Both symbols open the same address. One also carries a short message in bytes that an ordinary scanner stops reading before it reaches.</p>
+          <p class="status-tag">IMPLEMENTED MECHANISM / LIVE QR OUTPUT</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled">
+      <div class="wrap">
+        <div class="pair" aria-label="Two QR codes, one with altered padding">
+          <figure class="specimen">
+            <canvas id="heroA" width="240" height="240" aria-label="QR code A"></canvas>
+            <figcaption id="capA">A</figcaption>
+            <div class="verdict" id="verA" aria-live="polite"></div>
+          </figure>
+          <figure class="specimen">
+            <canvas id="heroB" width="240" height="240" aria-label="QR code B"></canvas>
+            <figcaption id="capB">B</figcaption>
+            <div class="verdict" id="verB" aria-live="polite"></div>
+          </figure>
+        </div>
+        <button id="tell" type="button">Run the padding check</button>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="build-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">BUILD / INSPECT</p><h2 id="build-title">Put your own message underneath</h2></div>
+          <p>Everything happens locally in this browser. No payload leaves the page.</p>
+        </div>
+        <form class="control-strip" id="builder">
+          <label>Overt message<input id="url" value="https://ciphermuseum.com" spellcheck="false"></label>
+          <label>Hidden message<input id="secret" value="MEET AT 7" maxlength="80" spellcheck="false"></label>
+          <button id="go" type="submit">Build QR</button>
+        </form>
+
+        <div class="lab-grid">
+          <figure class="specimen output-specimen">
+            <canvas id="out" width="280" height="280" aria-label="Generated QR code"></canvas>
+            <figcaption id="outcap">Waiting for input</figcaption>
+            <button class="quiet" id="save" type="button">Save PNG</button>
+          </figure>
+          <div class="readout-stack">
+            <article class="readout"><p>WHAT THE SCANNER SEES</p><output id="p1">&#8212;</output></article>
+            <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output id="pChanged">Pad codewords after the terminator</output></article>
+            <article class="readout"><p>WHAT A SECOND READER CAN RECOVER</p><output id="p2">&#8212;</output></article>
+            <article class="readout"><p>HOW AN ANALYST CAN NOTICE</p><output id="p3">&#8212;</output></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="bytes-title">
+      <div class="wrap">
+        <p class="section-number">DATA CODEWORDS</p>
+        <h2 id="bytes-title">The bytes themselves</h2>
+        <div class="byte-legend" aria-label="Byte categories">
+          <span><i class="swatch data"></i>payload + framing</span>
+          <span><i class="swatch pad"></i>specified padding</span>
+          <span><i class="swatch anomaly"></i>changed padding</span>
+        </div>
+        <div class="bytes" id="dump" aria-live="polite">Build a code above.</div>
+      </div>
+    </section>
+
+    <section class="band conclusion-band">
+      <div class="wrap thesis-grid">
+        <p class="section-number">FINDING</p>
+        <div>
+          <h2>Hidden from an ordinary reader does not mean hidden from an analyst.</h2>
+          <p>The terminator tells a normal decoder that the overt message is complete. The remaining data capacity is filled with alternating <code>0xEC</code> and <code>0x11</code> pad codewords. Replacing them can preserve the visible payload, but a standards-aware comparison exposes the change immediately.</p>
+          <p class="research-note"><strong>Research basis:</strong> pad codewords as a carrier are documented in Tan et al. (2020) [BIB]. Regeneration-and-compare detection is described by Chen et al. (2023) [FULL]. HideAndSeen implements the same general pad-codeword mechanism; it does not claim to reproduce either paper byte for byte.</p>
+          <a class="arrow-link" href="../learn/papers.html#padding">Read the research note <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/qr-tables.js"></script>
+  <script src="../js/qr-core.js"></script>
+  <script src="../js/site.js"></script>
+  <script src="../js/render.js"></script>
+  <script src="../js/padding.js"></script>
+</body>
+</html>

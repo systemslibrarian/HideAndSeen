@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HideAndSeen | What a QR code carries</title>
+  <meta name="description" content="Interactive demonstrations of QR-code steganography and steganalysis drawn from published research.">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-root="." data-page="start">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="hero band">
+      <div class="wrap hero-grid">
+        <div class="hero-copy reveal">
+          <p class="kicker">AN INTERACTIVE QR RESEARCH EXHIBIT</p>
+          <h1>Hide<span>And</span>Seen</h1>
+          <p class="question">What can a QR code carry that an ordinary scanner never shows?</p>
+          <p class="lede">Interactive demonstrations of QR steganography and steganalysis drawn from published research. Inspect the structures beneath the black squares, then test how easily hidden information becomes evidence.</p>
+          <a class="button-link" href="exhibits/padding.html">Enter the first exhibit</a>
+        </div>
+        <div class="hero-object reveal" aria-label="QR structure preview">
+          <canvas id="heroQr" width="360" height="360"></canvas>
+          <div class="spec-line"><span>VISIBLE</span><strong>https://ciphermuseum.com</strong></div>
+          <div class="spec-line accent"><span>UNDERNEATH</span><strong>padding changed</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="thesis-title">
+      <div class="wrap thesis-grid">
+        <p class="section-number">00 / THESIS</p>
+        <div>
+          <h2 id="thesis-title">Hidden is not the same as unfindable.</h2>
+          <p class="large-copy">A QR code is not simply a URL represented by black squares. It is a stack of choices: segmentation, data codewords, padding, error correction, masks, modules, and sometimes structure below the scale an ordinary camera preserves.</p>
+          <p>Each layer can create alternate representations. Every hiding method also creates assumptions, tradeoffs, or artifacts. Understanding the cover format is what turns invisible information back into visible evidence.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="exhibits-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">01-12 / EXHIBITS</p><h2 id="exhibits-title">Twelve ways to look underneath</h2></div>
+          <p>Real encoders where the mechanism is implemented; explicit teaching models where the cited physical technique is not reproduced exactly.</p>
+        </div>
+        <ol class="exhibit-index" data-exhibit-index></ol>
+      </div>
+    </section>
+
+    <section class="band dark-band" aria-labelledby="four-questions-title">
+      <div class="wrap">
+        <p class="section-number">THE ANALYST'S LABEL</p>
+        <h2 id="four-questions-title">Ask four questions of every symbol.</h2>
+        <div class="question-grid">
+          <div><span>01</span><h3>What the scanner sees</h3><p>The ordinary semantic payload.</p></div>
+          <div><span>02</span><h3>What changed underneath</h3><p>The representation or physical structure.</p></div>
+          <div><span>03</span><h3>What a second reader recovers</h3><p>The additional signal, if one exists.</p></div>
+          <div><span>04</span><h3>How an analyst can notice</h3><p>The assumptions, statistics, or standards check.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="anatomy-callout">
+      <div class="wrap split-callout">
+        <div>
+          <p class="section-number">HOW QR WORKS</p>
+          <h2 id="anatomy-callout">Read the symbol as a structure, not a picture.</h2>
+          <p>Toggle finder patterns, timing tracks, format information, data modules, masking, terminator bits, and padding on an actual generated QR symbol.</p>
+        </div>
+        <a class="arrow-link" href="learn/anatomy.html">Open QR anatomy <span aria-hidden="true">&#8594;</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="js/qr-tables.js"></script>
+  <script src="js/qr-core.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Error Correction as Hiding Space | HideAndSeen</title>
+  <meta name="description" content="Alter real QR codewords, consume Reed-Solomon correction capacity, and watch an independent decoder succeed or fail.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="exhibits">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">EXHIBIT 03</p>
+        <div>
+          <p class="kicker">THE CORRECTION BUDGET</p>
+          <h1>Damage can be data, until it is too much damage.</h1>
+          <p class="lede">Reed-Solomon codewords let a reader repair limited symbol errors. Deliberate changes can carry a second signal, but every changed codeword spends part of the same budget needed for scratches, blur, and missing modules.</p>
+          <p class="status-tag">LIVE MULTI-BLOCK LAB / WAN-STYLE REGION OPTION</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="ecc-lab-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">LIVE CORRECTION LAB</p><h2 id="ecc-lab-title">Spend the margin</h2></div>
+          <p>One highlighted module is flipped in each selected codeword. ZXing independently decodes the modified matrix after every change.</p>
+        </div>
+        <form id="eccBuilder" class="control-strip ecc-controls">
+          <label>Overt message<input id="eccText" value="BLOCK PLACEMENT / 2026" spellcheck="false"></label>
+          <label>ECC level<select id="eccLevel"><option>L</option><option>M</option><option>Q</option><option selected>H</option></select></label>
+          <label>Version<select id="eccVersion"><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option><option>9</option></select></label>
+          <label>Hidden bits<input id="eccBits" value="10110" pattern="[01]*" maxlength="32" inputmode="numeric"></label>
+          <button type="submit">Reset symbol</button>
+        </form>
+
+        <div class="slider-grid">
+          <label>Fixed codeword changes <output id="intentionalValue">0</output><input id="intentional" type="range" min="0" max="32" value="16"></label>
+          <label>Additional simulated damage <output id="noiseValue">0</output><input id="noise" type="range" min="0" max="12" value="0"></label>
+          <button id="breakIt" class="quiet" type="button">Exceed correction limit</button>
+        </div>
+        <div class="placement-switch" role="group" aria-label="Codeword placement strategy">
+          <button type="button" data-placement="spread">Spread across blocks</button>
+          <button type="button" data-placement="concentrate">Concentrate in one block</button>
+          <button type="button" data-placement="region">Paper-style region</button>
+        </div>
+        <p class="placement-note" id="placementNote">The same number of altered codewords is distributed round-robin across Reed-Solomon blocks.</p>
+
+        <div class="ecc-pair">
+          <figure class="specimen">
+            <canvas id="eccOriginal" width="330" height="330" aria-label="Original QR code"></canvas>
+            <figcaption>ORIGINAL / NO CODEWORD ERRORS</figcaption>
+          </figure>
+          <figure class="specimen">
+            <canvas id="eccModified" width="330" height="330" aria-label="Modified QR code with changed modules highlighted"></canvas>
+            <figcaption id="eccModifiedCaption">MODIFIED</figcaption>
+          </figure>
+        </div>
+
+        <div class="budget-panel">
+          <div class="budget-heading"><span>CORRECTION BUDGET</span><strong id="budgetText">&#8212;</strong></div>
+          <div class="budget-track"><span id="budgetUsed"></span></div>
+          <div class="block-budget" id="blockBudget"></div>
+        </div>
+
+        <div class="readout-stack ecc-readouts">
+          <article class="readout"><p>WHAT THE SCANNER SEES</p><output id="eccDecode">&#8212;</output></article>
+          <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output id="eccChanged">&#8212;</output></article>
+          <article class="readout"><p>WHAT A SECOND READER CAN RECOVER</p><output id="eccHidden">&#8212;</output></article>
+          <article class="readout"><p>HOW AN ANALYST CAN NOTICE</p><output id="eccDetect">&#8212;</output></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band dark-band" aria-labelledby="lineage-title">
+      <div class="wrap">
+        <p class="section-number">IDEA LINEAGE</p>
+        <h2 id="lineage-title">Correctable changes became a family of channels.</h2>
+        <ol class="lineage-list">
+          <li><span>2009 / 2011</span><strong>Canon EFDC patent publication</strong><p>Modify encoded symbols while keeping errors within correction capacity.</p><a href="https://patents.google.com/patent/AU2009202557A1/en">AU2009202557A1</a></li>
+          <li><span>2013-2018</span><strong>QR steganography literature</strong><p>Use correctable module or codeword changes for secondary data, with different capacity and robustness tradeoffs.</p><a href="https://doi.org/10.1007/978-3-319-72998-5_8">Wan et al.</a></li>
+          <li><span>2018 publication</span><strong>Redundant-region patent</strong><p>A separate patent family also describes secondary information in redundant barcode regions.</p><a href="https://patents.google.com/patent/US9934457B2/en">US9934457B2</a></li>
+          <li><span>THIS LAB</span><strong>Block-local correction experiment</strong><p>Hold the error count fixed, change only placement, and ask an independent decoder what survives.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="band conclusion-band">
+      <div class="wrap thesis-grid">
+        <p class="section-number">FINDING</p>
+        <div>
+          <h2>Error correction is a robustness reserve, not free capacity.</h2>
+          <p>Changing a module in a distinct codeword creates a Reed-Solomon symbol error. A decoder can often restore the overt message while those errors remain within every block's correction limit. Hiding and environmental damage compete for that same finite margin.</p>
+          <p class="research-note"><strong>Research basis:</strong> this generalized laboratory illustrates the family of correctable-change techniques cited in Chiang et al. (2013), Bui et al. (2014), Lin &amp; Chen (2017), Huang et al. (2018), and Wan et al. (2017/2018). The lower-right data-region option follows Wan's spatial rule, while the spread/concentrate comparison isolates the paper's per-block limit. It does not reproduce the paper's maximum-region calculation for every QR version.</p>
+          <a class="arrow-link" href="../learn/papers.html#ecc">Read the research note <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/vendor/zxing.min.js"></script>
+  <script src="../js/qr-tables.js"></script>
+  <script src="../js/qr-core.js"></script>
+  <script src="../js/site.js"></script>
+  <script src="../js/render.js"></script>
+  <script src="../js/decoder.js"></script>
+  <script src="../js/ecc-model.js"></script>
+  <script src="../js/ecc-exhibit.js"></script>
+</body>
+</html>

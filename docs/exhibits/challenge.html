@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Detection Challenge | HideAndSeen</title>
+  <meta name="description" content="Use QR metadata, codewords, padding, segmentation, error correction, and regeneration tools to decide whether anything is hidden.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="detection">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+  <main id="main">
+    <section class="exhibit-hero band"><div class="wrap exhibit-title-grid"><p class="exhibit-number">EXHIBIT 12</p><div><p class="kicker">THE DETECTION CHALLENGE</p><h1>Is anything hidden here?</h1><p class="lede">A single QR arrives without provenance. Use analytical tools, form a conclusion, then reveal which mechanism produced it and which evidence was useful or misleading.</p><p class="status-tag">SYNTHETIC CASES / DEFENSIVE ANALYSIS / FULL INSPECTION AVAILABLE</p></div></div></section>
+
+    <section class="band ruled" aria-labelledby="challenge-title"><div class="wrap">
+      <div class="section-heading"><div><p class="section-number">CASE FILE</p><h2 id="challenge-title">Choose your instruments</h2></div><div class="action-row"><button id="newCase" class="quiet" type="button">New random sample</button><button id="revealCase" type="button">Reveal answer</button></div></div>
+      <div class="challenge-stage">
+        <figure class="specimen challenge-specimen"><canvas id="challengeQr" width="400" height="400" aria-label="Unknown QR sample"></canvas><figcaption id="challengeCaption">UNKNOWN SAMPLE</figcaption></figure>
+        <div>
+          <div class="tool-rack" id="toolRack" aria-label="Analyst tools">
+            <button type="button" data-tool="decode">Ordinary decode</button>
+            <button type="button" data-tool="metadata">QR metadata</button>
+            <button type="button" data-tool="codewords">Raw codewords</button>
+            <button type="button" data-tool="padding">Padding inspection</button>
+            <button type="button" data-tool="modules">Module map</button>
+            <button type="button" data-tool="regenerate">Regeneration comparison</button>
+            <button type="button" data-tool="segments">Segmentation inspection</button>
+            <button type="button" data-tool="ecc">ECC anomalies</button>
+          </div>
+          <article class="instrument-output">
+            <p class="section-number" id="toolName">NO INSTRUMENT SELECTED</p>
+            <h3 id="toolFinding">Begin with an ordinary decode or inspect the structure directly.</h3>
+            <pre id="toolDetail">Evidence will appear here.</pre>
+          </article>
+          <fieldset class="analyst-verdict"><legend>Your working conclusion</legend><label><input type="radio" name="verdict" value="hidden"> Something is hidden</label><label><input type="radio" name="verdict" value="clean"> No hidden data</label><label><input type="radio" name="verdict" value="uncertain" checked> Evidence is inconclusive</label></fieldset>
+        </div>
+      </div>
+
+      <section class="case-reveal" id="caseReveal" hidden aria-live="polite">
+        <p class="section-number">CASE RESOLUTION</p>
+        <h2 id="caseTruth">&#8212;</h2>
+        <div class="resolution-grid">
+          <div><span>ACTUAL CASE</span><p id="caseMechanism">&#8212;</p></div>
+          <div><span>USEFUL EVIDENCE</span><p id="caseUseful">&#8212;</p></div>
+          <div><span>MISLEADING EVIDENCE</span><p id="caseMisleading">&#8212;</p></div>
+          <div><span>WHAT YOU CAN CONCLUDE</span><p id="caseConclusion">&#8212;</p></div>
+        </div>
+      </section>
+    </div></section>
+
+    <section class="band conclusion-band"><div class="wrap thesis-grid"><p class="section-number">FINAL LESSON</p><div><h2>There is no universal “steganography bit.”</h2><p>Detection depends on knowing where alternate representations can exist, checking the right layer, and modeling innocent variation. A clean result from one tool does not clear every channel. A difference from one reference does not prove hidden data.</p><blockquote>Understanding the cover format is what turns “invisible” information back into visible evidence.</blockquote></div></div></section>
+  </main>
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/vendor/zxing.min.js"></script>
+  <script src="../js/vendor/node-qrcode.min.js"></script>
+  <script src="../js/qr-tables.js"></script>
+  <script src="../js/qr-core.js"></script>
+  <script src="../js/site.js"></script>
+  <script src="../js/render.js"></script>
+  <script src="../js/decoder.js"></script>
+  <script src="../js/qr-inspect.js"></script>
+  <script src="../js/segments.js"></script>
+  <script src="../js/ecc-model.js"></script>
+  <script src="../js/encoder-adapters.js"></script>
+  <script src="../js/challenge.js"></script>
+</body>
+</html>

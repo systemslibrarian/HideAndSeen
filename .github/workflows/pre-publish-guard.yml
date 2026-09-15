@@ -1,0 +1,82 @@
+name: Pre-publish guard
+
+# Fails if this repository is public while third-party papers under articles/
+# are still tracked OR still reachable anywhere in Git history. See
+# PRE-PUBLISH.md. This is a backstop: it can only fire once the repo is already
+# public, so it limits damage rather than preventing it.
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history: deleted blobs stay reachable
+
+      - name: Refuse to distribute third-party papers from a public repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          private=$(gh api "repos/${GITHUB_REPOSITORY}" --jq .private)
+          echo "repository private = ${private}"
+
+          if [ "${private}" = "true" ]; then
+            echo "Repository is private. Third-party PDFs under articles/ are not being distributed."
+            exit 0
+          fi
+
+          # Everything under articles/ is restricted EXCEPT patents (public
+          # domain) and files written in this repo. Default-deny, so anything
+          # added later is caught too.
+          restricted=$(git ls-files -- articles/ \
+            | grep -E '\.pdf$' \
+            | grep -v '^articles/patents/' \
+            || true)
+
+          # Deleting the directory is not enough - the blobs stay reachable.
+          # Check every object in history, not just the current tree.
+          hist=$(git rev-list --objects --all \
+            | awk '{print $2}' \
+            | grep -E '^articles/.*\.pdf$' \
+            | grep -v '^articles/patents/' \
+            | sort -u \
+            || true)
+
+          if [ -z "${restricted}" ] && [ -z "${hist}" ]; then
+            echo "Repository is public, and no restricted papers are tracked or in history. OK."
+            exit 0
+          fi
+
+          if [ -z "${restricted}" ] && [ -n "${hist}" ]; then
+            echo "::error title=Third-party papers reachable in history of a public repository::See PRE-PUBLISH.md"
+            echo ""
+            echo "These are deleted from the tree but STILL REACHABLE in Git history:"
+            echo ""
+            echo "${hist}" | sed 's/^/  /'
+            echo ""
+            echo "Run the git-filter-repo procedure in PRE-PUBLISH.md, then force-push."
+            exit 1
+          fi
+
+          echo "::error title=Third-party papers tracked in a public repository::See PRE-PUBLISH.md"
+          echo ""
+          echo "This repository is PUBLIC and the following third-party PDFs are tracked."
+          echo "Publishing them redistributes paywalled work."
+          echo ""
+          echo "${restricted}" | sed 's/^/  /'
+          echo ""
+          echo "Deleting them in a new commit is NOT enough - the blobs stay in history."
+          echo "See PRE-PUBLISH.md for the git-filter-repo procedure."
+          exit 1

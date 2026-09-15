@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Regeneration and Compare | HideAndSeen</title>
+  <meta name="description" content="Regenerate a suspicious QR code, compare modules, and see why encoder differences can look like steganography.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="detection">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">EXHIBIT 08</p>
+        <div>
+          <p class="kicker">REGENERATION-AND-COMPARE STEGANALYSIS</p>
+          <h1>A difference is a clue. It is not yet a conclusion.</h1>
+          <p class="lede">Decode a received QR, regenerate what a clean symbol should look like, then compare modules. The method catches real changes, but its answer depends on what the analyst assumes “clean” means.</p>
+          <p class="status-tag">CONTROLLED EXPERIMENT / TWO INDEPENDENT ENCODERS</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="regen-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">THE EXPERIMENT</p><h2 id="regen-title">Hold the overt message constant</h2></div>
+          <p>The analyst regenerates with HideAndSeen. Each caption exposes the received symbol's actual version, ECC, mask, and encoder.</p>
+        </div>
+        <form id="regenBuilder" class="control-strip regen-controls">
+          <label>Overt message<input id="regenText" value="https://ciphermuseum.com/profile/8675309" spellcheck="false"></label>
+          <button type="submit">Regenerate experiment</button>
+        </form>
+        <div class="scenario-switch" role="group" aria-label="Comparison scenario">
+          <button type="button" data-scenario="baseline">Same encoder / clean</button>
+          <button type="button" data-scenario="hidden">Padding channel / hidden</button>
+          <button type="button" data-scenario="encoder">Different encoder / innocent</button>
+        </div>
+
+        <div class="compare-grid">
+          <figure class="specimen">
+            <canvas id="receivedQr" width="300" height="300" aria-label="Received QR code"></canvas>
+            <figcaption id="receivedCaption">RECEIVED</figcaption>
+          </figure>
+          <figure class="specimen">
+            <canvas id="referenceQr" width="300" height="300" aria-label="Regenerated reference QR code"></canvas>
+            <figcaption id="referenceCaption">REGENERATED</figcaption>
+          </figure>
+          <figure class="specimen difference-specimen">
+            <canvas id="differenceQr" width="300" height="300" aria-label="Module difference map"></canvas>
+            <figcaption id="differenceCaption">DIFFERENCE MAP</figcaption>
+          </figure>
+        </div>
+
+        <div class="analysis-flow" aria-label="Regeneration analysis steps">
+          <div><span>1</span><strong>Decode</strong><p id="regenDecoded">&#8212;</p></div>
+          <div><span>2</span><strong>Regenerate</strong><p id="regenReference">&#8212;</p></div>
+          <div><span>3</span><strong>Compare</strong><p id="regenDiff">&#8212;</p></div>
+          <div><span>4</span><strong>Interpret</strong><p id="regenVerdict">&#8212;</p></div>
+        </div>
+
+        <p class="finding-box" id="regenFinding" aria-live="polite">Choose a scenario.</p>
+      </div>
+    </section>
+
+    <section class="band conclusion-band">
+      <div class="wrap thesis-grid">
+        <p class="section-number">FINDING</p>
+        <div>
+          <h2>A detector needs a model of normal behavior.</h2>
+          <p>When the issuer and analyst use the same implementation, regeneration can isolate deliberate modification. When two honest encoders make different legal choices, the same difference test can produce an alert without hidden data.</p>
+          <blockquote>If “normal” is underspecified, difference is not evidence of maliciousness.</blockquote>
+          <p class="research-note"><strong>Research basis:</strong> Chen et al., “A General Steganalysis Method of QR Codes” (2023) [FULL], doi:10.1007/978-3-031-36574-4_28. The repository experiment implements regeneration and comparison at codeword/module level and tests an encoder-mismatch condition. This does not establish that the published method is wrong in general; it establishes a false-positive condition for this implementation and these encoder assumptions.</p>
+          <a class="arrow-link" href="../learn/papers.html#steganalysis">Read the research note <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/vendor/zxing.min.js"></script>
+  <script src="../js/vendor/node-qrcode.min.js"></script>
+  <script src="../js/qr-tables.js"></script>
+  <script src="../js/qr-core.js"></script>
+  <script src="../js/site.js"></script>
+  <script src="../js/render.js"></script>
+  <script src="../js/decoder.js"></script>
+  <script src="../js/encoder-adapters.js"></script>
+  <script src="../js/steganalysis.js"></script>
+</body>
+</html>

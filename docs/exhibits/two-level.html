@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Two-Level / Textured QR | HideAndSeen</title>
+  <meta name="description" content="Explore a conceptual two-level QR simulation with macro modules and fine-grained texture.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="exhibits">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">EXHIBIT 05</p>
+        <div>
+          <p class="kicker">MACRO MODULES / MICRO TEXTURE</p>
+          <h1>One pattern from across the room. Another under magnification.</h1>
+          <p class="lede">Ordinary QR readers reduce each module to a dark or light sample. A specialized reader can inspect controlled structure inside nominally dark modules.</p>
+          <p class="status-tag">CONCEPTUAL REPRODUCTION / NOT PHYSICALLY EQUIVALENT TO THE PAPER</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="texture-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">RESOLUTION LAB</p><h2 id="texture-title">Change the acquisition conditions</h2></div>
+          <p>The macro QR is real. The intra-module texture is a controlled teaching model using equal-sized light notches to encode binary choices.</p>
+        </div>
+        <form id="textureBuilder" class="control-strip texture-controls">
+          <label>Overt message<input id="textureOvert" value="https://ciphermuseum.com/two-level" spellcheck="false"></label>
+          <label>Private level<input id="textureSecret" value="SEEN" maxlength="18"></label>
+          <button type="submit">Build texture</button>
+        </form>
+        <div class="slider-grid texture-sliders">
+          <label>Magnification <output id="textureZoomValue">100%</output><input id="textureZoom" type="range" min="55" max="130" value="100"></label>
+          <label>Microscopic detail <output id="textureDetailValue">100%</output><input id="textureDetail" type="range" min="0" max="100" value="100"></label>
+          <label>Simulated blur <output id="textureBlurValue">0 px</output><input id="textureBlur" type="range" min="0" max="4" step="0.5" value="0"></label>
+        </div>
+        <div class="action-row" role="group" aria-label="Viewing mode">
+          <button type="button" data-texture-view="ordinary">Ordinary view</button>
+          <button type="button" data-texture-view="microscopic">Microscopic view</button>
+        </div>
+
+        <div class="texture-stage">
+          <div class="texture-frame"><canvas id="textureQr" width="560" height="560" aria-label="Textured two-level QR simulation"></canvas></div>
+          <div class="readout-stack">
+            <article class="readout"><p>WHAT THE SCANNER SEES</p><output id="textureScan">&#8212;</output></article>
+            <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output id="textureChanged">&#8212;</output></article>
+            <article class="readout"><p>WHAT A SECOND READER CAN RECOVER</p><output id="textureReveal">&#8212;</output></article>
+            <article class="readout"><p>HOW AN ANALYST CAN NOTICE</p><output id="textureDetect">&#8212;</output></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band conclusion-band">
+      <div class="wrap thesis-grid">
+        <p class="section-number">MODEL LIMIT</p>
+        <div>
+          <h2>Sampling scale decides which structure survives.</h2>
+          <p>This browser model preserves a macro QR matrix while placing equal-area texture alternatives inside selected dark data modules. It demonstrates the reading hierarchy, not the print process, authentication construction, or exact texture code from the paper.</p>
+          <p class="research-note"><strong>Inspired by:</strong> Tkachenko et al., “Two-Level QR Code for Private Message Sharing and Document Authentication” (2016) [BIB], doi:10.1109/TIFS.2015.2506546.</p>
+          <a class="arrow-link" href="../learn/papers.html#two-level">Read the research note <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/vendor/zxing.min.js"></script>
+  <script src="../js/qr-tables.js"></script>
+  <script src="../js/qr-core.js"></script>
+  <script src="../js/site.js"></script>
+  <script src="../js/decoder.js"></script>
+  <script src="../js/visual-models.js"></script>
+  <script src="../js/two-level.js"></script>
+</body>
+</html>

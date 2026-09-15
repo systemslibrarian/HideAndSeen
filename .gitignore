@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+node_modules/
+playwright-report/
+test-results/
+# *.png  (images/ is tracked deliberately)
+*.svg
+corpus/
+out/
+.DS_Store

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How QR Works | HideAndSeen</title>
+  <meta name="description" content="Toggle the structural layers of a real generated QR code.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="anatomy">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">HOW QR WORKS</p>
+        <div>
+          <p class="kicker">AN INTERACTIVE ANATOMY</p>
+          <h1>A QR code is a stack of structures.</h1>
+          <p class="lede">Generate a symbol, then isolate the fixed patterns, payload framing, error-correction codewords, mask operation, terminator, and padding that ordinary scanners collapse into one decoded message.</p>
+          <p class="status-tag">ACTUAL MODULE MAP / SAME ENCODER AS THE EXHIBITS</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="anatomy-lab-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">STRUCTURE VIEWER</p><h2 id="anatomy-lab-title">Select a layer</h2></div>
+          <p>Highlighted cells are taken from the placement trace produced while this QR was built.</p>
+        </div>
+        <form id="anatomyBuilder" class="control-strip anatomy-controls">
+          <label>Overt message<input id="anatomyText" value="QR ANATOMY / 2026" spellcheck="false"></label>
+          <label>ECC level<select id="anatomyEcc"><option>L</option><option selected>M</option><option>Q</option><option>H</option></select></label>
+          <label>Version<select id="anatomyVersion"><option value="auto">Auto</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></label>
+          <button type="submit">Generate</button>
+        </form>
+
+        <div class="anatomy-grid">
+          <div>
+            <figure class="specimen anatomy-specimen">
+              <canvas id="anatomyQr" width="520" height="520" aria-label="QR code with selected structural overlay"></canvas>
+              <figcaption id="anatomyCaption">&#8212;</figcaption>
+            </figure>
+            <div class="metadata-grid" aria-live="polite">
+              <div><span>VERSION</span><strong id="metaVersion">&#8212;</strong></div>
+              <div><span>ECC</span><strong id="metaEcc">&#8212;</strong></div>
+              <div><span>MASK</span><strong id="metaMask">&#8212;</strong></div>
+              <div><span>HIGHLIGHTED</span><strong id="metaCount">&#8212;</strong></div>
+            </div>
+          </div>
+          <div>
+            <div class="overlay-controls" id="overlayControls" aria-label="QR anatomy layers"></div>
+            <article class="layer-note" aria-live="polite">
+              <p class="section-number" id="layerLabel">WHOLE SYMBOL</p>
+              <h3 id="layerTitle">The complete matrix</h3>
+              <p id="layerDescription">Every dark and light module participates in the image a scanner samples. Select a layer to isolate its job.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band dark-band" aria-labelledby="pipeline-title">
+      <div class="wrap">
+        <p class="section-number">ENCODING PIPELINE</p>
+        <h2 id="pipeline-title">Meaning becomes structure in stages.</h2>
+        <ol class="pipeline">
+          <li><span>01</span><strong>Segment</strong><p>Choose numeric, alphanumeric, byte, or another legal mode.</p></li>
+          <li><span>02</span><strong>Frame</strong><p>Add mode, count, terminator, and byte-boundary bits.</p></li>
+          <li><span>03</span><strong>Pad</strong><p>Fill unused data capacity with specified pad codewords.</p></li>
+          <li><span>04</span><strong>Protect</strong><p>Compute Reed-Solomon error-correction codewords by block.</p></li>
+          <li><span>05</span><strong>Place and mask</strong><p>Walk the matrix in a zigzag and apply one of eight mask formulas.</p></li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/qr-tables.js"></script>
+  <script src="../js/qr-core.js"></script>
+  <script src="../js/site.js"></script>
+  <script src="../js/render.js"></script>
+  <script src="../js/anatomy.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Near/Far Dual-Message QR | HideAndSeen</title>
+  <meta name="description" content="Build an equal-size dual-message QR whose centered and outer module regions decode under different spatial sampling conditions.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="exhibits">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">EXHIBIT 07</p>
+        <div>
+          <p class="kicker">NEAR/FAR TWO-STATE MODULES</p>
+          <h1>Move the sampling window. The message changes.</h1>
+          <p class="lede">Two equal-size QR matrices occupy the same image. A small centered region in every module carries the near code; the surrounding region carries the far code.</p>
+          <p class="status-tag">PAPER-STYLE CONSTRUCTION / STANDARD QR READERS / PHYSICAL RESULTS VARY</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="dual-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">DUAL-MESSAGE LAB</p><h2 id="dual-title">One image, two sampling apertures</h2></div>
+          <p>The defaults reproduce the paper's first example parameters: version 1, ECC L, 29-pixel modules, and a 7-pixel centered near region.</p>
+        </div>
+        <form id="dualBuilder" class="control-strip dual-controls">
+          <label>Near message<input id="dualNear" value="Near view is less" maxlength="17"></label>
+          <label>Far message<input id="dualFar" value="Far view is more" maxlength="17"></label>
+          <label>Module geometry<select id="dualGeometry"><option value="29,7" selected>29 px / 7 px center</option><option value="11,3">11 px / 3 px center</option></select></label>
+          <button type="submit">Build dual QR</button>
+        </form>
+
+        <label class="alignment-control">Sampling aperture <output id="dualApertureValue">7 x 7 px / near</output><input id="dualAperture" type="range" min="7" max="29" step="2" value="7"></label>
+        <div class="action-row" role="group" aria-label="Sampling presets"><button type="button" data-dual-view="near">Sample near</button><button type="button" data-dual-view="far">Sample far</button><button type="button" data-dual-view="composite">Show module structure</button><button class="quiet" id="saveDual" type="button">Save full-resolution PNG</button></div>
+
+        <div class="dual-stage">
+          <figure class="specimen dual-composite"><canvas id="dualComposite" width="841" height="841" aria-label="Paper-style near/far dual-message QR"></canvas><figcaption id="dualCaption">DUAL QR</figcaption></figure>
+          <div>
+            <figure class="specimen dual-sampled"><canvas id="dualSampled" width="320" height="320" aria-label="QR matrix recovered at the selected sampling aperture"></canvas><figcaption id="dualSampledCaption">SAMPLED MATRIX</figcaption></figure>
+            <div class="readout-stack nested-readouts">
+              <article class="readout"><p>NEAR READER TARGET</p><output id="dualNearOut">&#8212;</output></article>
+              <article class="readout"><p>FAR READER TARGET</p><output id="dualFarOut">&#8212;</output></article>
+              <article class="readout"><p>CURRENT SAMPLED DECODE</p><output id="dualDecoded">&#8212;</output></article>
+              <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output id="dualStructure">&#8212;</output></article>
+            </div>
+          </div>
+        </div>
+        <div class="module-key"><div><span class="two-state state-00"></span><code>near 0 / far 0</code></div><div><span class="two-state state-01"></span><code>near 0 / far 1</code></div><div><span class="two-state state-10"></span><code>near 1 / far 0</code></div><div><span class="two-state state-11"></span><code>near 1 / far 1</code></div></div>
+      </div>
+    </section>
+
+    <section class="band conclusion-band"><div class="wrap thesis-grid"><p class="section-number">IMPLEMENTATION SCOPE</p><div><h2>The module-value decision is itself a representational layer.</h2><p>This implementation follows Chou and Wang's generating algorithm: both messages use standard QR codes with the same version and ECC level; each corresponding bit pair selects one of four two-state module blocks; the centered region carries the near value and the outer region carries the far value; a four-module quiet zone surrounds the result.</p><p>The browser proves both matrices by resampling the rendered composite and decoding them with ZXing. Physical phone results still depend on screen density, camera focus, app behavior, glare, and distance. The paper reports near/far reads at about 30/50 cm on a monitor and 20/40 cm on paper for one setup, not universal thresholds.</p><p class="research-note"><strong>Implemented from:</strong> Kuo-Cheng Chou &amp; Ran-Zan Wang, “Dual-Message QR Codes,” <em>Sensors</em> 24(10):3055 (2024). <a href="https://doi.org/10.3390/s24103055">doi:10.3390/s24103055</a> <span class="grade full">FULL</span></p><a class="arrow-link" href="../learn/papers.html#nested">Read the research note <span aria-hidden="true">&#8594;</span></a></div></div></section>
+  </main>
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/vendor/zxing.min.js"></script>
+  <script src="../js/qr-tables.js"></script>
+  <script src="../js/qr-core.js"></script>
+  <script src="../js/site.js"></script>
+  <script src="../js/render.js"></script>
+  <script src="../js/decoder.js"></script>
+  <script src="../js/dual-message.js"></script>
+  <script src="../js/nested.js"></script>
+</body>
+</html>

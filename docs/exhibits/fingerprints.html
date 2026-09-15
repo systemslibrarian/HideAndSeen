@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Encoder Fingerprints | HideAndSeen</title>
+  <meta name="description" content="Compare legal QR encoding choices made by two independent implementations and inspect stored five-encoder profiles.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="exhibits">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">EXHIBIT 09</p>
+        <div>
+          <p class="kicker">IMPLEMENTATION TRACES</p>
+          <h1>Standards leave room for different legal choices.</h1>
+          <p class="lede">Generate one payload with two independent browser encoders. Compare their version, error correction, mask, segments, padding, codewords, and modules without assuming either output is suspicious.</p>
+          <p class="status-tag">TWO LIVE ENCODERS / FIVE STORED CONTROLLED PROFILES</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="fingerprint-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">LIVE COMPARISON</p><h2 id="fingerprint-title">Same payload, different defaults</h2></div>
+          <p>HideAndSeen currently encodes one byte segment by default. node-qrcode optimizes segmentation and uses its own mask scoring.</p>
+        </div>
+        <form id="fingerprintBuilder" class="control-strip regen-controls">
+          <label>Overt message<input id="fingerprintText" value="https://ciphermuseum.com/profile/8675309" spellcheck="false"></label>
+          <button type="submit">Compare encoders</button>
+        </form>
+        <div class="fingerprint-pair">
+          <figure class="specimen"><canvas id="fingerprintA" width="300" height="300"></canvas><figcaption>HIDEANDSEEN</figcaption></figure>
+          <figure class="specimen"><canvas id="fingerprintB" width="300" height="300"></canvas><figcaption>NODE-QRCODE</figcaption></figure>
+          <figure class="specimen"><canvas id="fingerprintDiff" width="300" height="300"></canvas><figcaption id="fingerprintDiffCaption">MODULE DIFFERENCE</figcaption></figure>
+        </div>
+        <div class="comparison-table" id="fingerprintTable" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="profiles-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">CONTROLLED SAMPLE</p><h2 id="profiles-title">Five observed profiles</h2></div>
+          <p>Ranges below summarize five held-out payloads per encoder from the corrected experiment. They are not universal signatures.</p>
+        </div>
+        <div class="profile-table-wrap"><table class="profile-table" id="profileTable"><thead><tr><th>Encoder</th><th>Version</th><th>ECC</th><th>Mask</th><th>Segments</th><th>Leading 00</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="band conclusion-band">
+      <div class="wrap thesis-grid">
+        <p class="section-number">FINDING</p>
+        <div>
+          <h2>Implementations can leave behavioral traces. Traces are not necessarily identities.</h2>
+          <p>Version, ECC boosting, mask selection, segmentation, and padding behavior can differ among valid implementations. Those features may support a hypothesis about provenance, but overlap, configuration, and payload effects prevent strong identification.</p>
+          <a class="arrow-link" href="../learn/papers.html#fingerprints">Read the methods and limitations <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/vendor/zxing.min.js"></script>
+  <script src="../js/vendor/node-qrcode.min.js"></script>
+  <script src="../js/qr-tables.js"></script>
+  <script src="../js/qr-core.js"></script>
+  <script src="../js/site.js"></script>
+  <script src="../js/render.js"></script>
+  <script src="../js/decoder.js"></script>
+  <script src="../js/qr-inspect.js"></script>
+  <script src="../js/encoder-adapters.js"></script>
+  <script src="../js/fingerprints.js"></script>
+</body>
+</html>

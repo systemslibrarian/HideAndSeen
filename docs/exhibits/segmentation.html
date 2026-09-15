@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Same Message, Different Segmentation | HideAndSeen</title>
+  <meta name="description" content="Encode the same QR payload with different valid segment sequences and use the choice as a small hidden signal.">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-root=".." data-page="exhibits">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header></header>
+
+  <main id="main">
+    <section class="exhibit-hero band">
+      <div class="wrap exhibit-title-grid">
+        <p class="exhibit-number">EXHIBIT 02</p>
+        <div>
+          <p class="kicker">ALTERNATE REPRESENTATIONS</p>
+          <h1>Same message. Different route through the standard.</h1>
+          <p class="lede">Numeric, alphanumeric, and byte segments can sometimes express the same overt text. A normal reader joins them and returns only the message; a cooperating reader can treat the segmentation choice itself as a signal.</p>
+          <p class="status-tag">EDUCATIONAL IMPLEMENTATION / INSPIRED BY KOPTYRA &amp; OGIELA 2024</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band ruled" aria-labelledby="segment-lab-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-number">REPRESENTATION LAB</p><h2 id="segment-lab-title">Choose two hidden bits</h2></div>
+          <p>All four symbols are forced to the same version and ECC level. Their overt semantic message is identical.</p>
+        </div>
+        <form id="segmentBuilder" class="control-strip segment-controls">
+          <label>Overt message<input id="segmentText" maxlength="64" value="MEET AT GATE 7 / CODE 86753091234567890" spellcheck="false"></label>
+          <label>ECC level<select id="segmentEcc"><option selected>L</option><option>M</option><option>Q</option><option>H</option></select></label>
+          <label>Hidden selection<select id="hiddenBits"><option>00</option><option>01</option><option>10</option><option>11</option></select></label>
+          <button type="submit">Build variants</button>
+        </form>
+
+        <div class="representation-stage">
+          <figure class="specimen">
+            <canvas id="selectedQr" width="340" height="340" aria-label="Selected segmented QR code"></canvas>
+            <figcaption id="selectedCaption">&#8212;</figcaption>
+          </figure>
+          <div class="readout-stack">
+            <article class="readout"><p>WHAT THE SCANNER SEES</p><output id="segmentOvert">&#8212;</output></article>
+            <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output id="segmentSequence">&#8212;</output></article>
+            <article class="readout"><p>WHAT A SECOND READER CAN RECOVER</p><output id="segmentHidden">&#8212;</output></article>
+            <article class="readout"><p>HOW AN ANALYST CAN NOTICE</p><output id="segmentDetect">&#8212;</output></article>
+          </div>
+        </div>
+
+        <div class="representation-list" id="representationList" aria-label="Four valid segment representations"></div>
+      </div>
+    </section>
+
+    <section class="band conclusion-band">
+      <div class="wrap thesis-grid">
+        <p class="section-number">FINDING</p>
+        <div>
+          <h2>The overt message and its QR representation are different layers.</h2>
+          <p>A scanner reports the concatenated segment contents. It normally does not report which legal sequence of modes carried them. That representational choice can encode a small selection signal, but inefficient or unusual segmentation is itself an artifact an analyst can inspect.</p>
+          <p class="research-note"><strong>Research basis:</strong> Koptyra &amp; Ogiela, “Steganography in QR Codes—Information Hiding with Suboptimal Segmentation” (2024) [META], doi:10.3390/electronics13132658. This exhibit implements the same general technique with its own four transparent segment-selection rules; it is not a byte-for-byte reproduction of the paper.</p>
+          <a class="arrow-link" href="../learn/papers.html#segmentation">Read the research note <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-site-footer></footer>
+  <script src="../js/qr-tables.js"></script>
+  <script src="../js/qr-core.js"></script>
+  <script src="../js/site.js"></script>
+  <script src="../js/render.js"></script>
+  <script src="../js/segments.js"></script>
+  <script src="../js/segmentation-exhibit.js"></script>
+</body>
+</html>
