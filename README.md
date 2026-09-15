@@ -151,15 +151,13 @@ The full five-encoder build additionally requires the `qrencode` executable.
 ## History of the original investigation
 
 This repository began as a dated investigation into possible QR covert channels
-and generator attribution. The patent-search phase is closed. Padding hiding was
-already published, the channel is directly detectable, and the corrected
+and generator attribution. Both lines produced negative results. Padding hiding
+was already published, the channel is directly detectable, and the corrected
 attribution experiment remains far below a deployable forensic standard.
 
-The negative results are retained because they became the teaching material:
+Those negative results are retained because they became the teaching material:
 they show where capacity exists, what assumptions fail, and how a detector can
-misread innocent variation. [`docs/PRIOR-ART.md`](docs/PRIOR-ART.md) remains
-the search scratchpad, and does not define the public site's current
-educational purpose.
+misread innocent variation.
 
 ---
 
@@ -302,44 +300,6 @@ Semantic Scholar, DOAJ or HAL. **Three of the four are still unobtained.**
   Body paywalled (USD 29.95); buy it before relying on this critique. — obtained separately,
   not from a free source.
 
-## Patents
-
-- **[FULL] AU2009202557A1 — Canon, "QR code encoding method" (EFDC).**
-  Priority 2009-06-25, published 2011-01-20. Inventors Swayn, Fields.
-  Modify error-correction-encoded symbols to introduce *correctable* errors
-  carrying secondary data. **Status: ABANDONED (lapsed 2014-01-30), AU-only, no
-  family.** Still prior art as a printed publication; cannot be asserted.
-
-- **[META] US 11,785,452 — error-correction-code-based embedding in adaptive rate
-  communication systems.** Replaces codeword parity bits with a keyed hidden
-  message. Wireless MCS, not QR, but the parity-substitution concept will be
-  cited.
-
-- **[META] US 10,970,607 — "Secure QR code using nonlinearity of spatial frequency
-  in light".** Moiré-based encryption; decoding drops to 0% at 5 cm distance or
-  5° angle deviation. Occupies physical-layer eavesdropper resistance.
-
-- **[META] US 11,470,472 — secure wireless communication with peripheral device.**
-  Gates optical verification pixels on a proximity sensor and reduces display
-  intensity to prevent distant capture.
-
-- **[META] Datamax-O'Neil / Hand Held Products (Honeywell) printer-verifier family:
-  US 10,304,174 → 10,559,075 → 11,430,100 → 12,033,011**, plus US 10,867,145 and
-  US 2020/0082131. Print-**quality** verification: image the indicium, grade it
-  against a print quality standard, reject or destroy non-conforming media.
-  **Not attribution** — a perfectly printed malicious symbol passes. Live and
-  assertable; also a plausible licensee.
-  Google Patents: [10,304,174](https://patents.google.com/patent/US10304174B2/en) ·
-  [10,559,075](https://patents.google.com/patent/US10559075B2/en) ·
-  [11,430,100](https://patents.google.com/patent/US11430100B2/en) ·
-  [12,033,011](https://patents.google.com/patent/US12033011B2/en) ·
-  [10,867,145](https://patents.google.com/patent/US10867145B2/en) ·
-  [2020/0082131](https://patents.google.com/patent/US20200082131A1/en)
-
-- **[2ND] US 9,934,457 B2 — securing a 2D barcode by inserting secret information
-  into redundant regions.** Not independently verified.
-  [Google Patents](https://patents.google.com/patent/US9934457B2/en)
-
 ## General steganography theory — distribution matching
 
 These matter because they are what make a "learn the normal distribution, then
@@ -386,12 +346,6 @@ sample from it" QR claim obvious under §103 rather than novel.
 - **[libqrencode issue #220](https://github.com/fukuchi/libqrencode/issues/220)** — implementations disagreeing on mask scoring
   criterion 3. Third-party evidence that mask choice carries implementation
   identity.
-
-## Searches still owed
-
-See `docs/PRIOR-ART.md`. The short version: search by **CPC class**
-(G06K19/06056, G06K7/1434, G06K19/06037) rather than by keyword — keyword search
-missed live art twice during this work.
 
 ## Two traps in the encoder, both silent
 
