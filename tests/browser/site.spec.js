@@ -458,3 +458,18 @@ test("every predicting exhibit carries exactly one gate with an answer", async (
     expect(values, name).toContain(await gate.getAttribute("data-predict-answer"));
   }
 });
+
+test("every exhibit states what the reader should be able to do", async ({ page }) => {
+  const pages = ["padding", "segmentation", "ecc", "multi-secret", "two-level",
+                 "secret-sharing", "nested", "steganalysis", "fingerprints",
+                 "attribution", "distribution", "challenge", "base-rate"];
+  for (const name of pages) {
+    await page.goto(`/exhibits/${name}.html`);
+    const objective = page.locator(".objective");
+    await expect(objective, name).toHaveCount(1);
+    await expect(objective, name).toContainText("AFTER THIS EXHIBIT YOU SHOULD BE ABLE TO");
+    // an actual capability, not a restatement of the title
+    const text = (await objective.textContent()).replace("AFTER THIS EXHIBIT YOU SHOULD BE ABLE TO", "").trim();
+    expect(text.length, name).toBeGreaterThan(40);
+  }
+});

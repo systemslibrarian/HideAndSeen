@@ -4,19 +4,19 @@
   const root = document.body.dataset.root || ".";
   const currentPage = document.body.dataset.page || "";
   const exhibits = [
-    ["01", "The Padding Channel", "Pad bytes carry a message and betray it.", "exhibits/padding.html", "LIVE"],
-    ["02", "Same Message, Different Segmentation", "Equivalent payloads, different mode sequences.", "exhibits/segmentation.html", "LIVE"],
-    ["03", "Error Correction as Hiding Space", "Spend robustness to alter the symbol.", "exhibits/ecc.html", "LIVE"],
-    ["04", "Two Secrets, Two Channels", "One object, three readers.", "exhibits/multi-secret.html", "LIVE"],
-    ["05", "Two-Level / Textured QR", "Information above and below scanner resolution.", "exhibits/two-level.html", "MODEL"],
-    ["06", "Visual Secret Sharing", "Two scannable QR shadows recover one image together.", "exhibits/secret-sharing.html", "LIVE"],
-    ["07", "Near/Far Dual-Message QR", "Centered and outer module regions carry separate QR matrices.", "exhibits/nested.html", "LIVE"],
-    ["08", "Regeneration and Compare", "Difference is not automatically evidence.", "exhibits/steganalysis.html", "LIVE"],
-    ["09", "Encoder Fingerprints", "Legal defaults leave behavioral traces.", "exhibits/fingerprints.html", "DATA"],
-    ["10", "Can You Guess the Encoder?", "A weak forensic signal becomes a game.", "exhibits/attribution.html", "DATA"],
-    ["11", "Distribution Matching", "Model the cover before selecting variants.", "exhibits/distribution.html", "MODEL"],
-    ["12", "The Detection Challenge", "Choose the right analytical tool.", "exhibits/challenge.html", "LIVE"],
-    ["13", "The Base Rate", "What an alarm is worth depends on how rare hiding is.", "exhibits/base-rate.html", "MODEL"]
+    ["01", "The Padding Channel", "Pad bytes carry a message and betray it.", "exhibits/padding.html", "LIVE", "explain why an ordinary scanner never reads the pad codewords, and check a symbol's padding against the pattern the standard prescribes."],
+    ["02", "Same Message, Different Segmentation", "Equivalent payloads, different mode sequences.", "exhibits/segmentation.html", "LIVE", "explain how one piece of text has many valid encodings, and read a mode sequence as a deliberate choice rather than a fact about the text."],
+    ["03", "Error Correction as Hiding Space", "Spend robustness to alter the symbol.", "exhibits/ecc.html", "LIVE", "predict whether a given number of changed codewords will still decode, and check parity without letting the decoder repair it first."],
+    ["04", "Two Secrets, Two Channels", "One object, three readers.", "exhibits/multi-secret.html", "LIVE", "describe how a single symbol can answer to three different readers, and name what each additional channel costs."],
+    ["05", "Two-Level / Textured QR", "Information above and below scanner resolution.", "exhibits/two-level.html", "MODEL", "explain what information can live below the resolution an ordinary scan preserves, and why that is a physical claim rather than a coding one."],
+    ["06", "Visual Secret Sharing", "Two scannable QR shadows recover one image together.", "exhibits/secret-sharing.html", "LIVE", "explain why one share of a two-of-two split reveals nothing at all about the secret, rather than half of it."],
+    ["07", "Near/Far Dual-Message QR", "Centered and outer module regions carry separate QR matrices.", "exhibits/nested.html", "LIVE", "explain how the sampling aperture, not the image, selects which of two matrices a reader decodes."],
+    ["08", "Regeneration and Compare", "Difference is not automatically evidence.", "exhibits/steganalysis.html", "LIVE", "run regeneration-and-compare, and say precisely why a difference from a reference is not yet evidence of hiding."],
+    ["09", "Encoder Fingerprints", "Legal defaults leave behavioral traces.", "exhibits/fingerprints.html", "DATA", "read an encoder's defaults as behaviour, and say why behaviour that is measurable is still not an identity."],
+    ["10", "Can You Guess the Encoder?", "A weak forensic signal becomes a game.", "exhibits/attribution.html", "DATA", "read a confusion matrix rather than a headline accuracy, and say why better-than-chance is not attribution."],
+    ["11", "Distribution Matching", "Model the cover before selecting variants.", "exhibits/distribution.html", "MODEL", "explain why a hidden channel can be invisible in any one symbol and obvious across many of them."],
+    ["12", "The Detection Challenge", "Choose the right analytical tool.", "exhibits/challenge.html", "LIVE", "choose an instrument that matches the layer you suspect, and defend a verdict of clean."],
+    ["13", "The Base Rate", "What an alarm is worth depends on how rare hiding is.", "exhibits/base-rate.html", "MODEL", "compute what one alarm is actually worth, and say why specificity matters more than sensitivity when the target is rare."]
   ];
 
   function path(relative) {
@@ -52,6 +52,17 @@
       item.innerHTML = `<a href="${path(href)}"><span class="index-number">${number}</span><span><h3>${title}</h3><p>${description}</p></span><span class="index-status">${status}</span></a>`;
       index.appendChild(item);
     }
+  }
+
+  // Learning objective, from the same list, so every exhibit states one and
+  // they can be reviewed together rather than drifting page by page.
+  const heroTag = document.querySelector(".exhibit-hero .status-tag");
+  const listed = exhibits.findIndex(entry => location.pathname.endsWith(entry[3]));
+  if (listed >= 0 && heroTag && exhibits[listed][5]) {
+    const objective = document.createElement("p");
+    objective.className = "objective";
+    objective.innerHTML = `<span>AFTER THIS EXHIBIT YOU SHOULD BE ABLE TO</span>${exhibits[listed][5]}`;
+    heroTag.insertAdjacentElement("afterend", objective);
   }
 
   // Exhibit sequence. Derived from the list above, so a new exhibit gets

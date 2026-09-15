@@ -137,6 +137,8 @@ button[aria-pressed="true"] { color: var(--paper-bright); background: var(--acce
   text-transform: uppercase;
 }
 .status-tag { display: inline-block; margin-top: 1.25rem; border-left: 3px solid var(--accent); padding-left: .65rem; color: var(--ink); }
+.objective { max-width: 47rem; margin: 1.5rem 0 0; color: var(--muted); font-size: .95rem; }
+.objective span { display: block; margin-bottom: .25rem; color: var(--muted); font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; }
 .spec-line {
   display: grid;
   grid-template-columns: 7rem 1fr;
