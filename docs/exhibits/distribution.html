@@ -35,7 +35,22 @@
       </div>
     </div></section>
 
-    <section class="band conclusion-band"><div class="wrap thesis-grid"><p class="section-number">MODEL LIMIT</p><div><h2>Matching one visible distribution does not prove undetectability.</h2><p>The shaped samples are drawn from the same eight-choice probability model, so this particular chi-square test often cannot separate them from normal samples. A real system has dependencies, side channels, imperfect models, and more capable analysts.</p><p class="research-note"><strong>Conceptual basis:</strong> model-based and distribution-preserving ideas associated in this repository with Sallee, grey-box steganography, Meteor, Discop, minimum-entropy coupling, and set shaping. These references remain [2ND] unless upgraded in the research record. No named algorithm is reproduced here.</p><a class="arrow-link" href="../learn/papers.html#distribution">Read the research note <span aria-hidden="true">&#8594;</span></a></div></div></section>
+        <section class="band ruled four-questions" aria-labelledby="fourq-distribution">
+      <div class="wrap thesis-grid">
+        <p class="section-number">THE FOUR QUESTIONS</p>
+        <div>
+          <h2 id="fourq-distribution">Ask four questions of the channel.</h2>
+          <div class="readout-stack">
+          <article class="readout"><p>WHAT THE SCANNER SEES</p><output>Nothing unusual. Every sample is a valid symbol that decodes normally &#8212; the channel lives in which legal choice was made, not in what was encoded.</output></article>
+          <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output>The frequency with which each of the eight choices is selected, measured across many symbols rather than inside any one of them.</output></article>
+          <article class="readout"><p>WHAT A SECOND READER CAN RECOVER</p><output>The secret bits, by inverting the same selection model. The recipient has to share the cover model, which is the real cost of this approach.</output></article>
+          <article class="readout"><p>HOW AN ANALYST CAN NOTICE</p><output>Test observed frequencies against expected ones. Naive mapping flattens the distribution and fails a goodness-of-fit test; shaped selection is built to pass this particular test, which is not the same as being undetectable.</output></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section class="band conclusion-band"><div class="wrap thesis-grid"><p class="section-number">MODEL LIMIT</p><div><h2>Matching one visible distribution does not prove undetectability.</h2><p>The shaped samples are drawn from the same eight-choice probability model, so this particular chi-square test often cannot separate them from normal samples. A real system has dependencies, side channels, imperfect models, and more capable analysts.</p><p class="research-note"><strong>Conceptual basis:</strong> model-based and distribution-preserving ideas associated in this repository with Sallee, grey-box steganography, Meteor, Discop, minimum-entropy coupling, and set shaping. These references remain [2ND] unless upgraded in the research record. No named algorithm is reproduced here.</p><a class="arrow-link" href="../learn/papers.html#distribution">Read the research note <span aria-hidden="true">&#8594;</span></a></div></div></section>
   </main>
   <footer class="site-footer" data-site-footer></footer>
   <script src="../js/site.js"></script>

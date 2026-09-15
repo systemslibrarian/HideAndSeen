@@ -64,7 +64,22 @@
       </div>
     </section>
 
-    <section class="band conclusion-band">
+        <section class="band ruled four-questions" aria-labelledby="fourq-attribution">
+      <div class="wrap thesis-grid">
+        <p class="section-number">THE FOUR QUESTIONS</p>
+        <div>
+          <h2 id="fourq-attribution">Ask four questions of a symbol with nothing hidden.</h2>
+          <div class="readout-stack">
+          <article class="readout"><p>WHAT THE SCANNER SEES</p><output>An ordinary payload, revealed after you guess. The held-out samples carry no hidden channel at all.</output></article>
+          <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output>Nothing was altered. The only signal is which encoder's defaults produced the symbol.</output></article>
+          <article class="readout"><p>WHAT A SECOND READER CAN RECOVER</p><output>No second message. A classifier recovers a guess at provenance: 53.52% five-way accuracy against a 20% baseline, and only segno separates reliably, at 91.2%.</output></article>
+          <article class="readout"><p>HOW AN ANALYST CAN NOTICE</p><output>Train on disjoint payloads, test on held-out symbols, and read the confusion matrix rather than the headline accuracy. The off-diagonal mass is what shows the signal is too weak to identify an issuer.</output></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section class="band conclusion-band">
       <div class="wrap thesis-grid">
         <p class="section-number">FINDING</p>
         <div>

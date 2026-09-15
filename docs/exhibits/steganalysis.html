@@ -66,7 +66,22 @@
       </div>
     </section>
 
-    <section class="band conclusion-band">
+        <section class="band ruled four-questions" aria-labelledby="fourq-steganalysis">
+      <div class="wrap thesis-grid">
+        <p class="section-number">THE FOUR QUESTIONS</p>
+        <div>
+          <h2 id="fourq-steganalysis">Ask four questions of the received symbol.</h2>
+          <div class="readout-stack">
+          <article class="readout"><p>WHAT THE SCANNER SEES</p><output>The same overt message in all three scenarios. The payload alone never separates them.</output></article>
+          <article class="readout"><p>WHAT CHANGED UNDERNEATH</p><output>Scenario-dependent: nothing at all, or pad codewords after the terminator, or a second encoder's equally legal choice of version, mask and segmentation.</output></article>
+          <article class="readout"><p>WHAT A SECOND READER CAN RECOVER</p><output>Only in the hidden scenario, where the pad codewords carry a message. In the clean and encoder-mismatch scenarios there is nothing to recover.</output></article>
+          <article class="readout"><p>HOW AN ANALYST CAN NOTICE</p><output>Regenerate a reference symbol and compare modules. The test detects difference, not intent &#8212; it fires on the innocent encoder mismatch too, which is why the reference encoder has to match the issuer's.</output></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section class="band conclusion-band">
       <div class="wrap thesis-grid">
         <p class="section-number">FINDING</p>
         <div>
