@@ -117,8 +117,13 @@ button[aria-pressed="true"] { color: var(--paper-bright); background: var(--acce
   line-height: .9;
   font-weight: 700;
 }
+.hero-copy h1 {
+  font-size: clamp(2.1rem, 4.4vw, 3.5rem);
+  line-height: .95;
+  letter-spacing: -.015em;
+}
 .hero-copy h1 span { display: block; margin-left: .5em; color: var(--accent); }
-.question { max-width: 39rem; margin: 2rem 0 1rem; font-size: clamp(1.15rem, 2vw, 1.55rem); line-height: 1.25; font-weight: 600; }
+.question { max-width: 39rem; margin: 2rem 0 1rem; font-size: clamp(1.05rem, 1.7vw, 1.3rem); line-height: 1.35; font-weight: 600; }
 .lede { max-width: 42rem; color: var(--muted); font-size: 1rem; }
 .hero-object { align-self: end; padding-bottom: 1.5rem; }
 .hero-object canvas { display: block; width: min(100%, 360px); height: auto; background: var(--paper-bright); }
@@ -145,7 +150,7 @@ button[aria-pressed="true"] { color: var(--paper-bright); background: var(--acce
 .spec-line strong { overflow-wrap: anywhere; font-weight: 500; }
 .spec-line.accent strong { color: var(--accent); }
 
-h2 { margin: 0 0 1rem; font-size: clamp(1.6rem, 3vw, 2.5rem); line-height: 1.08; }
+h2 { margin: 0 0 1rem; font-size: clamp(1.45rem, 2.5vw, 2.05rem); line-height: 1.12; }
 h3 { margin: 0 0 .4rem; font-size: 1rem; }
 p { max-width: 47rem; }
 .thesis-grid { display: grid; grid-template-columns: minmax(8rem, .35fr) minmax(0, 1fr); gap: clamp(2rem, 7vw, 7rem); }
