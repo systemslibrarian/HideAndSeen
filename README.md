@@ -21,11 +21,10 @@ Its central lesson is simple:
 
 **Hidden is not the same as unfindable.**
 
-> **Private-repository warning:** before changing repository visibility, follow
-> [`PRE-PUBLISH.md`](PRE-PUBLISH.md). Third-party research PDFs are no longer
-> tracked here, but they remain reachable in Git history and must be stripped
-> before the first public push. The GitHub Pages workflow publishes only
-> `docs/`, but repository visibility exposes the full history.
+> **Publishing note:** this repository does not redistribute third-party
+> research papers. Every reference below links to a DOI or a free copy offered
+> by the publisher or author. See [`PRE-PUBLISH.md`](PRE-PUBLISH.md) for the
+> policy and the automated guard that enforces it.
 
 ## Live teaching exhibits
 
@@ -158,10 +157,9 @@ attribution experiment remains far below a deployable forensic standard.
 
 The negative results are retained because they became the teaching material:
 they show where capacity exists, what assumptions fail, and how a detector can
-misread innocent variation. [`DISCLOSURE.md`](DISCLOSURE.md) remains the
-append-only historical record; [`docs/PRIOR-ART.md`](docs/PRIOR-ART.md) remains
-the search scratchpad. Neither defines the public site's current educational
-purpose.
+misread innocent variation. [`docs/PRIOR-ART.md`](docs/PRIOR-ART.md) remains
+the search scratchpad, and does not define the public site's current
+educational purpose.
 
 ---
 

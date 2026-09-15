@@ -1,14 +1,13 @@
 # Prior art working file
 
-Full citations live in DISCLOSURE.md. This file is the scratchpad: search
-queries run, databases hit, dates, and what came back. A patent attorney will
-ask for exactly this.
+Full citations live in the references section of `README.md`. This file is
+the scratchpad: search queries run, databases hit, dates, and what came back.
 
 ## Searches run
 
 | date | database | query | result |
 |---|---|---|---|
-| 2026-09-15 | web | QR steganography error correction codewords padding covert channel | see DISCLOSURE.md |
+| 2026-09-15 | web | QR steganography error correction codewords padding covert channel | see README.md references |
 
 ## Searches owed
 

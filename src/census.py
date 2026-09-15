@@ -17,7 +17,7 @@ Channels measured:
 Channels are reported separately because they are NOT equally safe. Padding
 is unconstrained by the spec. Mask is recommended (penalty minimisation), so
 a deviation is recomputable by an analyst. Version and ECC are visible in the
-symbol's size and format info. See DISCLOSURE.md for the leak analysis.
+symbol's size and format info.
 """
 
 import math
