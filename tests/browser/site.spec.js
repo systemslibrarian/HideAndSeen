@@ -570,3 +570,133 @@ test("the site cites no patents", async ({ page }) => {
     await expect(page.locator("main"), path).not.toContainText(/patent/i);
   }
 });
+
+// --- Accessibility regressions -------------------------------------------
+// These pin fixes made after an axe-core audit. axe itself is not a project
+// dependency; these checks are the parts that can be asserted without it.
+
+const A11Y_PAGES = ["/", "/learn/papers.html", "/learn/glossary.html", "/learn/anatomy.html",
+  ...["padding", "segmentation", "ecc", "multi-secret", "two-level", "secret-sharing", "nested",
+      "steganalysis", "fingerprints", "attribution", "distribution", "challenge", "base-rate",
+      "adversary"].map(name => `/exhibits/${name}.html`)];
+
+test("muted text meets WCAG AA contrast on every surface it is used on", async ({ page }) => {
+  await page.goto("/");
+  const ratios = await page.evaluate(() => {
+    const luminance = hex => {
+      const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+        .map(v => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)));
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    };
+    const ratio = (a, b) => {
+      const [x, y] = [luminance(a), luminance(b)].sort((m, n) => n - m);
+      return (x + 0.05) / (y + 0.05);
+    };
+    const token = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return {
+      mutedOnPaper: ratio(token("--muted"), token("--paper")),
+      mutedOnBright: ratio(token("--muted"), token("--paper-bright")),
+      inkOnPaper: ratio(token("--ink"), token("--paper")),
+      darkBandMuted: ratio("#8e9589", token("--dark"))
+    };
+  });
+  // 5.0 rather than 4.5 on purpose. Muted text also sits on tinted surfaces
+  // (selected variant buttons, for one), and at exactly 4.5 against --paper it
+  // fell under the threshold there. The margin is the point.
+  expect(ratios.mutedOnPaper, `${ratios.mutedOnPaper.toFixed(2)}`).toBeGreaterThanOrEqual(5);
+  expect(ratios.mutedOnBright, `${ratios.mutedOnBright.toFixed(2)}`).toBeGreaterThanOrEqual(5);
+  expect(ratios.inkOnPaper).toBeGreaterThanOrEqual(4.5);
+  expect(ratios.darkBandMuted, `${ratios.darkBandMuted.toFixed(2)}`).toBeGreaterThanOrEqual(4.5);
+});
+
+test("muted text clears AA against the tinted surfaces it actually sits on", async ({ page }) => {
+  await page.goto("/exhibits/segmentation.html");
+  await page.waitForTimeout(400);
+  const worst = await page.evaluate(() => {
+    const luminance = rgb => {
+      const c = rgb.map(v => v / 255).map(v => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)));
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    };
+    // Computed backgrounds come back as rgb()/rgba() or as color(srgb ...) with
+    // 0-1 components, and translucent layers have to be composited rather than
+    // taken at face value.
+    const parse = s => {
+      if (!s) return null;
+      const srgb = s.match(/color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\)/);
+      if (srgb) return [+srgb[1] * 255, +srgb[2] * 255, +srgb[3] * 255, srgb[4] === undefined ? 1 : +srgb[4]];
+      const n = (s.match(/[\d.]+/g) || []).map(Number);
+      return n.length < 3 ? null : [n[0], n[1], n[2], n.length > 3 ? n[3] : 1];
+    };
+    const over = (fg, bg) => [0, 1, 2].map(i => fg[i] * fg[3] + bg[i] * (1 - fg[3]));
+    const effectiveBackground = el => {
+      const layers = [];
+      for (let n = el; n; n = n.parentElement) {
+        const c = parse(getComputedStyle(n).backgroundColor);
+        if (!c || c[3] === 0) continue;
+        layers.push(c);
+        if (c[3] === 1) break;
+      }
+      let base = [255, 255, 255];
+      for (let i = layers.length - 1; i >= 0; i -= 1) base = over(layers[i], base);
+      return base;
+    };
+    let lowest = Infinity;
+    let where = "";
+    for (const el of document.querySelectorAll("small, .representation-cost, .representation-bits, figcaption, .readout > p")) {
+      if (!el.textContent.trim()) continue;
+      const fg = parse(getComputedStyle(el).color).slice(0, 3);
+      const bg = effectiveBackground(el);
+      const [hi, lo] = [luminance(fg), luminance(bg)].sort((a, b) => b - a);
+      const r = (hi + 0.05) / (lo + 0.05);
+      if (r < lowest) { lowest = r; where = el.className || el.tagName; }
+    }
+    return { lowest, where };
+  });
+  expect(worst.lowest, `worst was ${worst.lowest.toFixed(2)} on ${worst.where}`).toBeGreaterThanOrEqual(4.5);
+});
+
+test("every canvas has an accessible name", async ({ page }) => {
+  let total = 0;
+  for (const path of A11Y_PAGES) {
+    await page.goto(path);
+    const unnamed = await page.locator("canvas").evaluateAll(els => {
+      const bad = els.filter(el => !el.getAttribute("aria-label") &&
+        !el.getAttribute("aria-labelledby") && !el.textContent.trim());
+      return { count: els.length, bad: bad.map(el => el.id || "(no id)") };
+    });
+    total += unnamed.count;
+    expect(unnamed.bad, path).toEqual([]);
+  }
+  expect(total).toBeGreaterThan(20);
+});
+
+test("no page scrolls sideways at 320px, the WCAG reflow width", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  for (const path of A11Y_PAGES) {
+    await page.goto(path);
+    const overflow = await page.evaluate(() =>
+      document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow, path).toBeLessThanOrEqual(1);
+  }
+});
+
+test("text can be doubled without forcing sideways scrolling", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 800 });
+  for (const path of A11Y_PAGES) {
+    await page.goto(path);
+    await page.evaluate(() => { document.documentElement.style.fontSize = "32px"; });
+    await page.waitForTimeout(120);
+    const overflow = await page.evaluate(() =>
+      document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow, path).toBeLessThanOrEqual(1);
+  }
+});
+
+test("scrollable tables are reachable by keyboard", async ({ page }) => {
+  for (const path of ["/exhibits/attribution.html", "/exhibits/fingerprints.html"]) {
+    await page.goto(path);
+    const wrap = page.locator(".profile-table-wrap");
+    await expect(wrap, path).toHaveAttribute("tabindex", "0");
+    await expect(wrap, path).toHaveAttribute("aria-label", /.+/);
+  }
+});

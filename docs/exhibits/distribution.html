@@ -31,9 +31,9 @@
       </form>
 
       <div class="histogram-grid">
-        <article class="histogram-panel"><p class="section-number">NORMAL COVER</p><h3>Expected encoder behavior</h3><canvas id="normalChart" width="360" height="230"></canvas><p id="normalStat" class="stat-line">&#8212;</p></article>
-        <article class="histogram-panel"><p class="section-number">NAIVE SECRET ENCODING</p><h3>Three bits map directly to eight choices</h3><canvas id="naiveChart" width="360" height="230"></canvas><p id="naiveStat" class="stat-line">&#8212;</p></article>
-        <article class="histogram-panel"><p class="section-number">DISTRIBUTION-SHAPED SELECTION</p><h3>Secret-derived draws follow the cover CDF</h3><canvas id="shapedChart" width="360" height="230"></canvas><p id="shapedStat" class="stat-line">&#8212;</p></article>
+        <article class="histogram-panel"><p class="section-number">NORMAL COVER</p><h3>Expected encoder behavior</h3><canvas id="normalChart" width="360" height="230" aria-label="Histogram of how often an ordinary encoder picks each of the eight choices"></canvas><p id="normalStat" class="stat-line">&#8212;</p></article>
+        <article class="histogram-panel"><p class="section-number">NAIVE SECRET ENCODING</p><h3>Three bits map directly to eight choices</h3><canvas id="naiveChart" width="360" height="230" aria-label="Histogram of naive hiding, where secret bits make every choice equally likely"></canvas><p id="naiveStat" class="stat-line">&#8212;</p></article>
+        <article class="histogram-panel"><p class="section-number">DISTRIBUTION-SHAPED SELECTION</p><h3>Secret-derived draws follow the cover CDF</h3><canvas id="shapedChart" width="360" height="230" aria-label="Histogram of distribution-shaped selection, following the cover frequencies"></canvas><p id="shapedStat" class="stat-line">&#8212;</p></article>
       </div>
 
       <div class="readout-stack distribution-readouts">

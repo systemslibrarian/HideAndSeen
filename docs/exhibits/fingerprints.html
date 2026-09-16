@@ -44,9 +44,9 @@
           <button type="submit">Compare encoders</button>
         </form>
         <div class="fingerprint-pair">
-          <figure class="specimen"><canvas id="fingerprintA" width="300" height="300"></canvas><figcaption>HIDEANDSEEN</figcaption></figure>
-          <figure class="specimen"><canvas id="fingerprintB" width="300" height="300"></canvas><figcaption>NODE-QRCODE</figcaption></figure>
-          <figure class="specimen"><canvas id="fingerprintDiff" width="300" height="300"></canvas><figcaption id="fingerprintDiffCaption">MODULE DIFFERENCE</figcaption></figure>
+          <figure class="specimen"><canvas id="fingerprintA" width="300" height="300" aria-label="QR code as encoded by HideAndSeen"></canvas><figcaption>HIDEANDSEEN</figcaption></figure>
+          <figure class="specimen"><canvas id="fingerprintB" width="300" height="300" aria-label="The same payload as encoded by node-qrcode"></canvas><figcaption>NODE-QRCODE</figcaption></figure>
+          <figure class="specimen"><canvas id="fingerprintDiff" width="300" height="300" aria-label="Map of the modules where the two encoders differ"></canvas><figcaption id="fingerprintDiffCaption">MODULE DIFFERENCE</figcaption></figure>
         </div>
         <div class="comparison-table" id="fingerprintTable" aria-live="polite"></div>
       </div>
@@ -58,7 +58,7 @@
           <div><p class="section-number">CONTROLLED SAMPLE</p><h2 id="profiles-title">Five observed profiles</h2></div>
           <p>Ranges below summarize five held-out payloads per encoder from the corrected experiment. They are not universal signatures.</p>
         </div>
-        <div class="profile-table-wrap"><table class="profile-table" id="profileTable"><thead><tr><th>Encoder</th><th>Version</th><th>ECC</th><th>Mask</th><th>Segments</th><th>Leading 00</th></tr></thead><tbody></tbody></table></div>
+        <div class="profile-table-wrap" tabindex="0" role="region" aria-label="Encoder profiles, scrollable"><table class="profile-table" id="profileTable"><thead><tr><th>Encoder</th><th>Version</th><th>ECC</th><th>Mask</th><th>Segments</th><th>Leading 00</th></tr></thead><tbody></tbody></table></div>
       </div>
     </section>
 
